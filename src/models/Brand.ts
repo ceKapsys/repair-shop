@@ -1,5 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
-import { DEVICE_TYPES, seoSchema } from "./_shared";
+import { Schema } from "mongoose";
+import { defineModel, DEVICE_TYPES, seoSchema } from "./_shared";
 
 const schema = new Schema(
   {
@@ -13,5 +13,4 @@ const schema = new Schema(
   { timestamps: true },
 );
 
-export type BrandDoc = InferSchemaType<typeof schema>;
-export const Brand: Model<BrandDoc> = models.Brand ?? model("Brand", schema);
+export const Brand = defineModel("Brand", schema);

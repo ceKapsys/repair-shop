@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const phone = z
+export const phone = z
   .string()
   .trim()
   .min(7, "Enter a phone number we can call")
@@ -35,10 +35,10 @@ export const standardBookingInput = z.object({
   serviceIds: z.array(objectId).min(1, "Pick at least one repair"),
   issueNote: z.string().max(1000).optional(),
   photos: z.array(z.url()).max(3).default([]),
-  preferredSlot: z.object({ date: z.iso.date(), window: z.string().min(1, "Pick a time") }),
+  preferredSlot: z.object({ date: z.iso.date("Pick a date"), window: z.string().min(1, "Pick a time") }),
   address,
   customer: contact,
-  turnstileToken: z.string().min(1),
+  turnstileToken: z.string().optional(),
 });
 
 export const emergencyBookingInput = z.object({
@@ -48,7 +48,7 @@ export const emergencyBookingInput = z.object({
   issueNote: z.string().max(1000).optional(),
   address,
   customer: contact,
-  turnstileToken: z.string().min(1),
+  turnstileToken: z.string().optional(),
 });
 
 export const bookingInput = z.discriminatedUnion("type", [

@@ -11,3 +11,4 @@ export * from "./Review";
 export * from "./Settings";
 export * from "./User";
 export * from "./Redirect";
+export * from "./Page";

@@ -8,7 +8,6 @@ const cache: Cache = globalForMongoose._mongoose ?? { conn: null, promise: null 
 globalForMongoose._mongoose = cache;
 
 mongoose.set("strictQuery", true);
-mongoose.set("sanitizeFilter", true); // blocks $-operator injection in query filters
 
 export function isDbConfigured() {
   return Boolean(process.env.MONGODB_URI);

@@ -8,56 +8,57 @@ login, live technician tracking, multi-branch, non-English.
 
 ## Progress
 
+Legend: [x] done and verified · [~] backend/library done, UI or wiring still to do · [ ] not started
+
 ### Week 0 — Research and setup
 - [x] Repo scaffolded: Next.js 15, TypeScript, Tailwind v4, ESLint, Prettier
-- [x] Dependencies: Mongoose, Zod, Auth.js v5, Motion, RHF, Resend, Upstash, Lucide
+- [x] Dependencies installed (Mongoose, Zod, Auth.js v5, Motion, Tiptap, dnd-kit, sonner, react-email, Resend, Upstash)
 - [x] `.env.example` with every integration's variables
-- [ ] Competitor scan (5–8 local + 2 national) → battlecard with 3 positioning gaps
-- [ ] Customer research (5–8 calls + top 20 booking messages) → top 5 questions, channel split, trust signals
-- [ ] Keyword list
-- [ ] Vercel project, Atlas cluster, Resend domain (SPF/DKIM/DMARC), Cloudinary
-- [ ] Apply for Google Business Profile API access
-- **Gate:** owner approves positioning, keyword list and sitemap
+- [ ] Competitor scan, customer research, keyword list
+- [ ] Vercel project, Atlas cluster, Resend domain, Cloudinary, Google Business Profile API application
 
 ### Week 1 — Design system
-- [x] Colour, type, radius, shadow and motion tokens as CSS variables (light + dark)
-- [x] Fonts via `next/font` (Inter body, Plus Jakarta Sans headings)
-- [x] Button primitive with press/hover motion; brand-colour override from settings
-- [ ] shadcn/ui components (inputs, dialog, drawer, toast, table, tabs)
-- [ ] Mockups: home, service, device, booking
-- **Gate:** owner signs off home and booking screens
+- [x] Colour, type, radius, shadow and motion tokens (light + dark); brand-colour override from settings
+- [x] Primitives: Button, Field, Switch, Badge, Card, Skeleton, Modal/Drawer (native `<dialog>`), ConfirmDialog, toasts (sonner)
+- [ ] Mockups / sign-off for home, service, device, booking
 
 ### Week 2 — Data and admin foundation
-- [x] All 11 Mongoose models + shared `seo` sub-schema, indexes, booking-number counter
-- [x] Auth.js credentials login, bcrypt, lockout after 5 failures, middleware on `/admin/*`, `requireRole()`
-- [x] Admin shell: sidebar (desktop), bottom tab bar (mobile), role-filtered nav
-- [x] Seed script (settings + owner)
-- [ ] TOTP 2FA for owner
-- [ ] Settings editor (logo, contacts, hours, areas, slots, emergency schedule, alert emails)
-- [ ] Shared SEO tab component
+- [x] 12 Mongoose models (11 from the plan + `pages` for editable fixed pages), shared `seo` sub-schema, booking-number counter
+- [x] Auth.js login, bcrypt, lockout after 5 failures, per-IP rate limit, middleware on `/admin/*`, `requireRole()`
+- [x] TOTP 2FA at login (RFC 6238, `src/lib/totp.ts`) — [ ] 2FA enrolment screen in Users
+- [x] Admin shell (sidebar / mobile tab bar), skeleton loading state, toasts
+- [x] Admin form kit (`src/components/admin/form.tsx`): shared Zod validation on blur + save, inline errors, unsaved-changes guard, Ctrl/Cmd+S, autosave hook
+- [x] Shared SEO tab: focus/secondary keywords, title/description counters + pixel warning, OG, canonical, noindex, Google snippet preview (desktop/mobile), checklist score
+- [x] Image upload: signed Cloudinary uploads, client-side compression, drag-and-drop, required alt text, URL paste fallback
+- [x] Rich-text editor (Tiptap): headings, lists, quote, callout, tables, images, links, internal-link picker
+- [x] Generic save/delete/undo/reorder/toggle server actions with slug-change 301 redirects (`app/admin/(panel)/actions.ts`)
+- [~] Settings: full schema, defaults and loader done — [ ] Settings editor screen
 - [ ] Users admin
 
 ### Week 3 — Catalogue
-- [ ] Services, categories, brands, devices admin
-- [ ] Public service and device pages, price toggle, JSON-LD, DB-driven sitemap
+- [x] Services admin: drag-to-reorder list, live/price toggles, editor (price type, show-price, duration, warranty, parts, emergency, devices, FAQs, images, rich text, SEO, card preview)
+- [x] Categories admin (service + blog categories, with SEO)
+- [x] Devices admin: brand → model tree, brand reorder, bulk add models, model editor with per-model repair price matrix + show-price per row, specs, SEO
+- [~] Public data layer (`src/lib/data.ts`, cached + tag-revalidated) — [ ] public service/device pages, JSON-LD, DB-driven sitemap
 
 ### Week 4 — Booking
-- [ ] Standard (4-step) and emergency flows, slots and capacity
-- [ ] Server Action: Zod + Turnstile + rate limit → save → Resend alerts → success page
-- [ ] Bookings admin, GA4 events
-- [x] Floating WhatsApp/Call buttons with page-aware message and click tracking hooks
+- [~] Booking Zod schemas, slot availability + capacity (`src/lib/availability.ts`), emergency open/closed per weekday, Turnstile verify, rate limit, email templates (admin alert, customer confirmation, status update)
+- [ ] Booking UI (standard + emergency), submit Server Action, success page
+- [ ] Bookings admin, dashboard, CSV export
+- [x] Floating WhatsApp/Call buttons with GA4 event hooks
 
 ### Week 5 — Soft launch
-- [x] Route skeleton for home, contact, service area, legal pages
-- [ ] Content for those pages; CSP header; Lighthouse ≥ 90; accessibility pass
-- **Gate:** 3 test bookings end to end with the owner
+- [x] Route skeleton for every public page; security headers; robots
+- [ ] Page content, CSP, Lighthouse, accessibility pass
 
 ### Week 6 — Content features
-- [ ] Blog (Tiptap, scheduling), gallery (before/after), Google review sync
+- [ ] Blog admin + public, gallery admin + public, reviews (Google OAuth sync, Places fallback, cron)
 
 ### Week 7 — SEO and polish
-- [ ] Launch pages + 6 posts, redirects manager, SEO health table, motion polish, Playwright tests, Search Console
-- **Gate:** full launch
+- [ ] SEO admin (defaults, redirects UI, health table), pages editor, motion polish, Playwright tests
+
+## Verified so far
+Against a local MongoDB 8: seed → owner login → create service → appears in list → create brand. `pnpm typecheck`, `pnpm lint`, `pnpm build` clean.
 
 ## Decisions (closed)
 

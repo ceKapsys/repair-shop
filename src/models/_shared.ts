@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model, models, type Model } from "mongoose";
 
 /** Shared SEO sub-document embedded in services, devices, brands, categories, posts. */
 export const seoSchema = new Schema(
@@ -48,3 +48,13 @@ export const BOOKING_STATUSES = [
   "done",
   "cancelled",
 ] as const;
+
+/**
+ * Register a model once (safe under hot reload). Typed loosely on purpose: reads are converted
+ * to the plain shapes in lib/types.ts, and writes are validated by Zod schemas beforehand.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyModel = Model<any>;
+export function defineModel(name: string, schema: Schema): AnyModel {
+  return (models[name] as AnyModel) ?? model(name, schema);
+}

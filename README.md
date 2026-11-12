@@ -18,6 +18,9 @@ pnpm seed                    # creates the settings doc (+ owner if OWNER_EMAIL/
 pnpm dev
 ```
 
+For a local database: `docker run -d --name mongo -p 27017:27017 mongo:8` and
+`MONGODB_URI=mongodb://localhost:27017/repairshop`.
+
 The public site builds and runs without a database — it falls back to the placeholder defaults in
 `src/lib/site.ts`. The admin panel needs `MONGODB_URI` and `AUTH_SECRET`.
 

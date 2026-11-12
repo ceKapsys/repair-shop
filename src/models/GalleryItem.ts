@@ -1,4 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
+import { Schema } from "mongoose";
+import { defineModel } from "./_shared";
 
 const schema = new Schema(
   {
@@ -15,6 +16,4 @@ const schema = new Schema(
   { timestamps: true, collection: "gallery" },
 );
 
-export type GalleryItemDoc = InferSchemaType<typeof schema>;
-export const GalleryItem: Model<GalleryItemDoc> =
-  models.GalleryItem ?? model("GalleryItem", schema);
+export const GalleryItem = defineModel("GalleryItem", schema);

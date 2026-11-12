@@ -1,5 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
-import { seoSchema } from "./_shared";
+import { Schema } from "mongoose";
+import { defineModel, seoSchema } from "./_shared";
 
 const schema = new Schema(
   {
@@ -12,6 +12,4 @@ const schema = new Schema(
   { timestamps: true, collection: "serviceCategories" },
 );
 
-export type ServiceCategoryDoc = InferSchemaType<typeof schema>;
-export const ServiceCategory: Model<ServiceCategoryDoc> =
-  models.ServiceCategory ?? model("ServiceCategory", schema);
+export const ServiceCategory = defineModel("ServiceCategory", schema);

@@ -1,4 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
+import { Schema } from "mongoose";
+import { defineModel } from "./_shared";
 
 const schema = new Schema(
   {
@@ -15,5 +16,4 @@ const schema = new Schema(
   { timestamps: true },
 );
 
-export type ReviewDoc = InferSchemaType<typeof schema>;
-export const Review: Model<ReviewDoc> = models.Review ?? model("Review", schema);
+export const Review = defineModel("Review", schema);

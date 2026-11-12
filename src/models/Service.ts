@@ -1,5 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
-import { faqSchema, imageSchema, PRICE_TYPES, seoSchema } from "./_shared";
+import { Schema } from "mongoose";
+import { defineModel, faqSchema, imageSchema, PRICE_TYPES, seoSchema } from "./_shared";
 
 const serviceSchema = new Schema(
   {
@@ -28,5 +28,4 @@ const serviceSchema = new Schema(
 );
 serviceSchema.index({ categoryId: 1, order: 1 });
 
-export type ServiceDoc = InferSchemaType<typeof serviceSchema>;
-export const Service: Model<ServiceDoc> = models.Service ?? model("Service", serviceSchema);
+export const Service = defineModel("Service", serviceSchema);

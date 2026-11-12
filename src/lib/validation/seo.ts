@@ -1,15 +1,18 @@
 import { z } from "zod";
+import { optText, optUrl } from "./common";
 
-export const seoInput = z.object({
-  metaTitle: z.string().max(60, "Keep titles under 60 characters").optional(),
-  metaDescription: z.string().max(160, "Keep descriptions under 160 characters").optional(),
-  focusKeyword: z.string().max(80).optional(),
-  keywords: z.array(z.string().max(80)).max(20).default([]),
-  canonical: z.url().optional().or(z.literal("")),
-  ogTitle: z.string().max(90).optional(),
-  ogDescription: z.string().max(200).optional(),
-  ogImage: z.url().optional().or(z.literal("")),
-  noindex: z.boolean().default(false),
-  schemaType: z.string().optional(),
-});
+export const seoInput = z
+  .object({
+    metaTitle: optText(70),
+    metaDescription: optText(200),
+    focusKeyword: optText(80),
+    keywords: z.array(z.string().trim().max(80)).max(20).default([]),
+    canonical: optUrl,
+    ogTitle: optText(90),
+    ogDescription: optText(200),
+    ogImage: optUrl,
+    noindex: z.boolean().default(false),
+    schemaType: optText(40),
+  })
+  .prefault({});
 export type SeoInput = z.infer<typeof seoInput>;

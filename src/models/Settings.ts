@@ -1,4 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
+import { Schema } from "mongoose";
+import { defineModel } from "./_shared";
 
 const daySchedule = new Schema(
   {
@@ -11,12 +12,15 @@ const daySchedule = new Schema(
   { _id: false },
 );
 
-/** Single document (_id: "site"). */
+/** Single document (_id: "site"). Public fields are read through getSettings(). */
 const schema = new Schema(
   {
     _id: { type: String, default: "site" },
     shopName: String,
-    hero: { title: String, subtitle: String },
+    tagline: String,
+    timezone: String,
+    currency: String,
+    hero: { title: String, subtitle: String, image: String },
     branding: { logo: String, logoDark: String, favicon: String, primaryColor: String },
     contacts: {
       phones: [String],
@@ -24,30 +28,40 @@ const schema = new Schema(
       whatsappMessage: String,
       email: String,
       address: String,
+      city: String,
       mapEmbed: String,
     },
     hours: [{ day: Number, open: String, close: String, closed: Boolean, _id: false }],
     serviceAreas: [{ name: String, slug: String, note: String, _id: false }],
     bookingSlots: {
-      windows: [String], // e.g. "09:00-12:00"
-      leadTimeHours: { type: Number, default: 2 },
-      maxPerSlot: { type: Number, default: 3 },
+      windows: [String], // "09:00-12:00"
+      leadTimeHours: Number,
+      maxPerSlot: Number,
+      daysAhead: Number,
+      closedDays: [Number],
     },
     emergency: { enabled: Boolean, fee: Number, schedule: [daySchedule] },
     alertEmails: [String],
+    notifications: { customerConfirmation: Boolean, statusUpdates: Boolean },
     googleBusiness: {
-      accountId: String,
-      locationId: String,
-      placeId: String,
+      accountName: String, // "accounts/123"
+      locationName: String, // "locations/456"
+      locationTitle: String,
       tokensEncrypted: String,
+      connectedAt: Date,
+      placeId: String,
+      mapsUri: String,
+      rating: Number,
+      ratingCount: Number,
       lastSyncAt: Date,
+      lastSyncError: String,
     },
     seoDefaults: { titleTemplate: String, description: String, ogImage: String },
     analytics: { ga4Id: String, searchConsoleVerification: String },
-    socials: { type: Map, of: String },
+    socials: { facebook: String, instagram: String, tiktok: String, youtube: String, x: String },
+    faqs: [{ question: String, answer: String, _id: false }],
   },
   { timestamps: true, collection: "settings" },
 );
 
-export type SettingsDoc = InferSchemaType<typeof schema>;
-export const Settings: Model<SettingsDoc> = models.Settings ?? model("Settings", schema);
+export const Settings = defineModel("Settings", schema);

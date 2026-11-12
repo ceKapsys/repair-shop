@@ -1,5 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
-import { BOOKING_STATUSES } from "./_shared";
+import { Schema } from "mongoose";
+import { defineModel, BOOKING_STATUSES } from "./_shared";
 
 const schema = new Schema(
   {
@@ -20,11 +20,14 @@ const schema = new Schema(
       lng: Number,
     },
     deviceId: { type: Schema.Types.ObjectId, ref: "Device" },
+    deviceLabel: String, // snapshot for emails and admin
     customDevice: String,
     serviceIds: [{ type: Schema.Types.ObjectId, ref: "Service" }],
+    serviceLabels: [String],
+    estimate: String,
     issueNote: String,
     photos: [String],
-    preferredSlot: { date: Date, window: String },
+    preferredSlot: { date: String, window: String }, // date: "YYYY-MM-DD" in shop timezone
     status: { type: String, enum: BOOKING_STATUSES, default: "new" },
     statusHistory: [
       { status: String, at: { type: Date, default: Date.now }, by: String, _id: false },
@@ -36,13 +39,13 @@ const schema = new Schema(
   { timestamps: true },
 );
 schema.index({ status: 1, createdAt: -1 });
+schema.index({ "preferredSlot.date": 1, "preferredSlot.window": 1 });
 
-export type BookingDoc = InferSchemaType<typeof schema>;
-export const Booking: Model<BookingDoc> = models.Booking ?? model("Booking", schema);
+export const Booking = defineModel("Booking", schema);
 
 /** Atomic per-month counter for readable booking numbers, e.g. RS-2611-0042. */
 const counterSchema = new Schema({ _id: String, seq: { type: Number, default: 0 } });
-const Counter = models.Counter ?? model("Counter", counterSchema);
+const Counter = defineModel("Counter", counterSchema);
 
 export async function nextBookingNo(now = new Date()) {
   const yymm = `${String(now.getFullYear()).slice(2)}${String(now.getMonth() + 1).padStart(2, "0")}`;
