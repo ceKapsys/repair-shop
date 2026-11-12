@@ -14,25 +14,9 @@ async function main() {
   if (!uri) throw new Error("MONGODB_URI is not set");
   await mongoose.connect(uri);
 
-  await Settings.updateOne(
-    { _id: "site" },
-    {
-      $setOnInsert: {
-        shopName: siteDefaults.name,
-        hero: siteDefaults.hero,
-        branding: { primaryColor: siteDefaults.primaryColor },
-        contacts: { ...siteDefaults.contacts },
-        bookingSlots: { windows: ["09:00-12:00", "12:00-15:00", "15:00-18:00", "18:00-21:00"], leadTimeHours: 2, maxPerSlot: 3 },
-        emergency: {
-          enabled: true,
-          fee: 0,
-          schedule: [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, enabled: true, open: "08:00", close: "22:00", responseMinutes: 15 })),
-        },
-        seoDefaults: siteDefaults.seo,
-      },
-    },
-    { upsert: true },
-  );
+  // Only the shop name is stored; every other setting falls back to defaults in src/lib/settings.ts
+  // until the owner saves Settings in the admin panel.
+  await Settings.updateOne({ _id: "site" }, { $setOnInsert: { shopName: siteDefaults.name } }, { upsert: true });
   console.log("✓ settings");
 
   const email = process.env.OWNER_EMAIL;

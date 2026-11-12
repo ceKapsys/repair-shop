@@ -1,5 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
-import { imageSchema, seoSchema } from "./_shared";
+import { Schema } from "mongoose";
+import { defineModel, imageSchema, seoSchema } from "./_shared";
 
 const schema = new Schema(
   {
@@ -20,5 +20,4 @@ const schema = new Schema(
 );
 schema.index({ status: 1, publishAt: -1 });
 
-export type PostDoc = InferSchemaType<typeof schema>;
-export const Post: Model<PostDoc> = models.Post ?? model("Post", schema);
+export const Post = defineModel("Post", schema);

@@ -27,9 +27,9 @@ export default async function HomePage() {
           "@type": "ElectronicsRepair",
           name: s.shopName,
           url: siteDefaults.url,
-          telephone: s.phones[0],
-          email: s.email,
-          address: s.address,
+          telephone: s.contacts.phones[0],
+          email: s.contacts.email,
+          address: s.contacts.address,
         }}
       />
 

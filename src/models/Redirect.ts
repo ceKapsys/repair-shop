@@ -1,4 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
+import { Schema } from "mongoose";
+import { defineModel } from "./_shared";
 
 const schema = new Schema(
   {
@@ -9,5 +10,4 @@ const schema = new Schema(
   { timestamps: true },
 );
 
-export type RedirectDoc = InferSchemaType<typeof schema>;
-export const Redirect: Model<RedirectDoc> = models.Redirect ?? model("Redirect", schema);
+export const Redirect = defineModel("Redirect", schema);

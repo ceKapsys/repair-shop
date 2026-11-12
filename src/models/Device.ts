@@ -1,5 +1,5 @@
-import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
-import { seoSchema } from "./_shared";
+import { Schema } from "mongoose";
+import { defineModel, seoSchema } from "./_shared";
 
 const repairSchema = new Schema(
   {
@@ -28,5 +28,4 @@ const schema = new Schema(
 schema.index({ brandId: 1, slug: 1 }, { unique: true });
 schema.index({ model: "text" });
 
-export type DeviceDoc = InferSchemaType<typeof schema>;
-export const Device: Model<DeviceDoc> = models.Device ?? model("Device", schema);
+export const Device = defineModel("Device", schema);

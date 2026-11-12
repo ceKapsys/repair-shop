@@ -16,8 +16,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
   return {
     metadataBase: new URL(siteDefaults.url),
-    title: { default: s.shopName, template: s.seo.titleTemplate },
-    description: s.seo.description,
+    title: { default: s.shopName, template: s.seoDefaults.titleTemplate },
+    description: s.seoDefaults.description,
+    verification: s.analytics.searchConsoleVerification ? { google: s.analytics.searchConsoleVerification } : undefined,
+    icons: s.branding.favicon ? { icon: s.branding.favicon } : undefined,
     applicationName: s.shopName,
     openGraph: { siteName: s.shopName, type: "website" },
   };
@@ -34,9 +36,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const s = await getSettings();
   // Admin brand colour re-themes the light palette without a code change.
   const brandCss =
-    s.primaryColor.toLowerCase() !== siteDefaults.primaryColor.toLowerCase() &&
-    /^#[0-9a-f]{6}$/i.test(s.primaryColor)
-      ? `@media (prefers-color-scheme: light){:root{--primary:${s.primaryColor}}}`
+    s.branding.primaryColor.toLowerCase() !== siteDefaults.primaryColor.toLowerCase() &&
+    /^#[0-9a-f]{6}$/i.test(s.branding.primaryColor)
+      ? `@media (prefers-color-scheme: light){:root{--primary:${s.branding.primaryColor}}}`
       : null;
 
   return (

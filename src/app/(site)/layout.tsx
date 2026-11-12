@@ -16,7 +16,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <SiteHeader shopName={s.shopName} />
       <main id="main">{children}</main>
       <SiteFooter s={s} />
-      <ContactFab whatsapp={s.whatsapp} phone={s.phones[0]} message={s.whatsappMessage} />
+      <ContactFab whatsapp={s.contacts.whatsapp} phone={s.contacts.phones[0]} message={s.contacts.whatsappMessage} />
     </>
   );
 }
