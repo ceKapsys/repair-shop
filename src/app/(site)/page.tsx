@@ -125,7 +125,7 @@ export default async function HomePage() {
 
                 <Link
                   href="/book"
-                  className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] border border-line-strong bg-background px-5 text-base font-semibold text-ink transition-colors hover:bg-surface"
+                  className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] border border-line bg-bg px-5 text-base font-semibold text-ink transition-colors hover:bg-surface"
                 >
                   <span>Book online</span>
                 </Link>

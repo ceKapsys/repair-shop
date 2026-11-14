@@ -103,3 +103,4 @@ export function SocialLinks({ socials, className = "", variant = "footer" }: Soc
     </div>
   );
 }
+

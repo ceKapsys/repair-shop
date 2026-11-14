@@ -44,10 +44,10 @@ export function BeforeAfterSlider({ galleryItems = [] }: BeforeAfterSliderProps)
         />
 
         {/* Tags */}
-        <span className="absolute left-3 top-3 z-10 rounded-full border border-line bg-background/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-ink shadow-xs backdrop-blur-sm">
+        <span className="absolute left-3 top-3 z-10 rounded-full border border-line bg-bg/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-ink shadow-xs backdrop-blur-sm">
           Before
         </span>
-        <span className="absolute right-3 top-3 z-10 rounded-full border border-line bg-background/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-ink shadow-xs backdrop-blur-sm">
+        <span className="absolute right-3 top-3 z-10 rounded-full border border-line bg-bg/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-ink shadow-xs backdrop-blur-sm">
           After
         </span>
 
@@ -56,7 +56,7 @@ export function BeforeAfterSlider({ galleryItems = [] }: BeforeAfterSliderProps)
           className="pointer-events-none absolute bottom-0 top-0 z-20 w-0.5 -translate-x-1/2 bg-bg shadow-lg transition-[left] duration-75"
           style={{ left: `${sliderPos}%` }}
         >
-          <div className="absolute left-1/2 top-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-line-strong bg-background text-ink shadow-card">
+          <div className="absolute left-1/2 top-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-bg text-ink shadow-card">
             <GripVertical size={16} />
           </div>
         </div>
@@ -74,7 +74,7 @@ export function BeforeAfterSlider({ galleryItems = [] }: BeforeAfterSliderProps)
 
         {/* Caption */}
         <figcaption className="absolute bottom-3 left-3 right-3 z-10 flex justify-between gap-2 text-xs">
-          <span className="rounded-full border border-line bg-background/95 px-3 py-1 font-medium text-ink shadow-xs backdrop-blur-sm">
+          <span className="rounded-full border border-line bg-bg/95 px-3 py-1 font-medium text-ink shadow-xs backdrop-blur-sm">
             Galaxy S24 · shattered display vs pristine screen
           </span>
         </figcaption>
@@ -97,7 +97,7 @@ export function BeforeAfterSlider({ galleryItems = [] }: BeforeAfterSliderProps)
             }}
           >
             <figcaption className="absolute bottom-3 left-3 right-3 flex justify-between gap-2 text-xs">
-              <span className="rounded-full border border-line bg-background/95 px-3 py-1 font-medium text-ink shadow-xs backdrop-blur-sm">
+              <span className="rounded-full border border-line bg-bg/95 px-3 py-1 font-medium text-ink shadow-xs backdrop-blur-sm">
                 {caption}
               </span>
             </figcaption>

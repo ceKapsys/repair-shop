@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Camera, Check } from "lucide-react";
+import { Check } from "lucide-react";
 
 interface HeroVisualProps {
   ticketNo?: string;
@@ -18,14 +18,14 @@ export function HeroVisual({
     <div className="relative pb-14 pl-0 sm:pl-10">
       {/* Technician photo frame */}
       <div
-        className="relative aspect-4/5 w-full overflow-hidden rounded-[18px] border border-line bg-surface"
+        className="relative aspect-4/5 w-full overflow-hidden rounded-[18px] border border-line bg-surface shadow-md"
         role="img"
-        aria-label="Certified technician with 911 Phone Repair badge arriving at customer door"
+        aria-label="Doorstep Technician · 911 Phone Repair"
       >
         {imageUrl ? (
           <Image
             src={imageUrl}
-            alt="Doorstep technician ready for phone repair"
+            alt="Doorstep Technician · 911 Phone Repair"
             fill
             sizes="(max-width: 768px) 100vw, 500px"
             priority
@@ -39,15 +39,11 @@ export function HeroVisual({
             }}
           />
         )}
-        <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-line bg-background/90 px-3 py-1.5 text-xs font-medium text-ink shadow-sm backdrop-blur-md">
-          <Camera size={14} className="text-primary" />
-          <span>Doorstep Technician · 911 Phone Repair</span>
-        </span>
       </div>
 
-      {/* Floating live repair ticket */}
+      {/* Floating live repair ticket (solid background, no image bleed/overwrite) */}
       <article
-        className="absolute bottom-0 left-0 w-[92%] max-w-[340px] rounded-[var(--radius-card)] border border-line-strong bg-background p-5 shadow-card"
+        className="absolute bottom-0 left-0 z-10 w-[92%] max-w-[340px] rounded-[var(--radius-card)] border border-line bg-bg p-5 shadow-2xl"
         aria-label="Example booking ticket"
       >
         <div className="flex items-center justify-between text-xs text-ink-soft">
@@ -63,7 +59,7 @@ export function HeroVisual({
         <p className="mt-0.5 text-sm text-ink-soft">{location}</p>
 
         {/* 4-Step Tracking Timeline */}
-        <ol className="mt-4 grid gap-2.5 border-t border-dashed border-line-strong pt-3.5 text-sm">
+        <ol className="mt-4 grid gap-2.5 border-t border-dashed border-line pt-3.5 text-sm">
           {/* Step 1: Done */}
           <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 text-ink-soft">
             <span className="flex size-[18px] items-center justify-center rounded-full bg-success text-on-primary">
@@ -93,7 +89,7 @@ export function HeroVisual({
 
           {/* Step 4: Pending */}
           <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 text-ink-soft/70">
-            <span className="flex size-[18px] items-center justify-center rounded-full border-[1.5px] border-line-strong" />
+            <span className="flex size-[18px] items-center justify-center rounded-full border-[1.5px] border-line" />
             <span className="text-xs sm:text-sm">Fixed and tested</span>
             <time className="font-mono text-xs">~45 min</time>
           </li>

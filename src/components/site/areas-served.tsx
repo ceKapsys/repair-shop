@@ -50,7 +50,7 @@ export function AreasServed({ serviceAreas, phone = "(954) 955-7572" }: AreasSer
               <Link
                 key={area.slug}
                 href={`/book?area=${area.slug}`}
-                className="group inline-flex items-center gap-1.5 rounded-full border border-line bg-background px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-line-strong hover:bg-mist"
+                className="group inline-flex items-center gap-1.5 rounded-full border border-line bg-bg px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-line hover:bg-mist/30"
               >
                 <span>{area.name}</span>
               </Link>
