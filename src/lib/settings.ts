@@ -61,7 +61,7 @@ export type SiteSettings = {
 };
 
 export const defaultSettings = (): SiteSettings => ({
-  shopName: "911 Mobile Repair Shop",
+  shopName: "911 Doorstep Phone Repair",
   tagline: "Certified Doorstep & 24/7 Emergency Device Repair in Florida",
   timezone: process.env.SHOP_TIMEZONE || "America/New_York",
   currency: process.env.SHOP_CURRENCY || "USD",
@@ -85,7 +85,7 @@ export const defaultSettings = (): SiteSettings => ({
   contacts: {
     phones: ["(954) 955-7572"],
     whatsapp: "19549557572",
-    email: "support@911mobilerepair.com",
+    email: "911phonerepair.online@gmail.com",
     address: "4045 NW 16th St, Lauderhill, FL 33313",
     city: "Lauderhill & South Florida",
   },
@@ -151,7 +151,11 @@ export const defaultSettings = (): SiteSettings => ({
     description: "Doorstep and 24/7 emergency device repair in Florida. Certified technicians, OEM parts, and written warranty.",
   },
   analytics: { ga4Id: (process.env.NEXT_PUBLIC_GA_ID || process.env.NEXT_PUBLIC_GA4_ID) || undefined },
-  socials: {},
+  socials: {
+    instagram: "https://instagram.com/911phonerepaironline",
+    tiktok: "https://www.tiktok.com/@911.phone.repair",
+    facebook: "https://facebook.com/911phonerepaironline",
+  },
   faqs: [
     { question: "How much will my repair cost?", answer: "Each repair shows its upfront price before you book. We never charge surprise diagnostic fees." },
     { question: "Do repairs come with a warranty?", answer: "Yes. Every repair includes up to a 180-day parts and labor warranty." },

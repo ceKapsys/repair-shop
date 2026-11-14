@@ -2,6 +2,7 @@ import Link from "next/link";
 import { copy, fill } from "@/content/copy";
 import type { SiteSettings } from "@/lib/settings";
 import { ThemeToggle } from "./theme-toggle";
+import { SocialLinks } from "./social-links";
 
 const f = copy.footer;
 const cols = [
@@ -26,6 +27,9 @@ export function SiteFooter({ s }: { s: SiteSettings }) {
           <p className="mt-3.5 max-w-[32ch] text-sm leading-relaxed text-mist">
             Doorstep and emergency repair for phones, laptops, tablets, consoles, watches and audio in {city}.
           </p>
+          <div className="mt-5">
+            <SocialLinks socials={s.socials} />
+          </div>
         </div>
         {cols.map((c) => (
           <nav key={c.title} aria-label={c.title}>

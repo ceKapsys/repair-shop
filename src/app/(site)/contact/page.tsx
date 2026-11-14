@@ -11,6 +11,7 @@ import { telLink, waLink } from "@/lib/links";
 import { pageMetadata } from "@/lib/seo";
 import { getSettings } from "@/lib/settings";
 import { localNow } from "@/lib/time";
+import { SocialLinks } from "@/components/site/social-links";
 
 export const revalidate = 3600;
 const c = copy.contact;
@@ -51,6 +52,12 @@ export default async function ContactPage() {
           <div>
             <dt className="text-sm leading-5 font-medium text-ink-soft">{c.address}</dt>
             <dd className="mt-2 max-w-[40ch]">{s.contacts.address}</dd>
+          </div>
+          <div>
+            <dt className="text-sm leading-5 font-medium text-ink-soft mb-2">Social media</dt>
+            <dd className="max-w-xs">
+              <SocialLinks socials={s.socials} variant="contact" />
+            </dd>
           </div>
         </dl>
         <section aria-labelledby="hours">

@@ -34,14 +34,14 @@ const days = [0, 1, 2, 3, 4, 5, 6];
 
 async function seedSettings() {
   await ensure(Settings, { _id: "site" }, {
-    shopName: "911 Mobile Repair Shop",
+    shopName: "911 Doorstep Phone Repair",
     tagline: "Doorstep and emergency device repair in Florida",
     timezone: process.env.SHOP_TIMEZONE || "America/New_York",
     currency: process.env.SHOP_CURRENCY || "USD",
     contacts: {
       phones: ["(954) 955-7572"],
       whatsapp: "19549557572",
-      email: "support@911mobilerepair.com",
+      email: "911phonerepair.online@gmail.com",
       address: "4045 NW 16th St, Lauderhill, FL 33313",
       city: "Lauderhill & South Florida",
     },
