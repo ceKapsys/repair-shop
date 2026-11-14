@@ -69,6 +69,7 @@ export const defaultSettings = (): SiteSettings => ({
     eyebrow: "Doorstep repair across South Florida",
     title: "Your device, fixed at your door.",
     sub: "Phones, laptops, tablets, consoles, watches and audio. A certified technician comes directly to your home or office in Miami, Fort Lauderdale & Orlando.",
+    image: "/images/hero-technician.jpg",
     trustItems: [
       { icon: "shield", text: "Up to 180-day warranty" },
       { icon: "eye", text: "Repaired in front of you" },
@@ -182,7 +183,7 @@ export function mergeSettings(s: any): SiteSettings {
       eyebrow: s.hero?.eyebrow || d.hero.eyebrow,
       title: s.hero?.title || d.hero.title,
       sub: s.hero?.sub || d.hero.sub,
-      image: s.hero?.image || undefined,
+      image: s.hero?.image || d.hero.image || "/images/hero-technician.jpg",
       trustItems: arr(s.hero?.trustItems, d.hero.trustItems ?? []),
     },
     howItWorks: arr(s.howItWorks, d.howItWorks ?? []),

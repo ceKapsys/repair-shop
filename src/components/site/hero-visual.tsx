@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Camera, Check } from "lucide-react";
 
 interface HeroVisualProps {
@@ -11,26 +12,36 @@ export function HeroVisual({
   ticketNo = "RS-2611-0042",
   deviceTitle = "iPhone 15 Pro · Screen replacement",
   location = "4045 NW 16th St, Lauderhill, FL",
-  imageUrl,
+  imageUrl = "/images/hero-technician.jpg",
 }: HeroVisualProps) {
   return (
     <div className="relative pb-14 pl-0 sm:pl-10">
       {/* Technician photo frame */}
       <div
         className="relative aspect-4/5 w-full overflow-hidden rounded-[18px] border border-line bg-surface"
-        style={{
-          backgroundImage: imageUrl
-            ? `url(${imageUrl})`
-            : `repeating-linear-gradient(135deg, var(--color-surface) 0 14px, var(--color-line) 14px 15px)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
         role="img"
-        aria-label="Technician repairing a phone at customer door"
+        aria-label="Certified technician with 911 Phone Repair badge arriving at customer door"
       >
-        <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-line bg-background/95 px-3 py-1.5 text-xs font-medium text-ink-soft shadow-xs backdrop-blur-sm">
-          <Camera size={15} className="text-steel" />
-          <span>Shop photo: technician at customer door</span>
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt="Doorstep technician ready for phone repair"
+            fill
+            sizes="(max-width: 768px) 100vw, 500px"
+            priority
+            className="object-cover object-center"
+          />
+        ) : (
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `repeating-linear-gradient(135deg, var(--color-surface) 0 14px, var(--color-line) 14px 15px)`,
+            }}
+          />
+        )}
+        <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-line bg-background/90 px-3 py-1.5 text-xs font-medium text-ink shadow-sm backdrop-blur-md">
+          <Camera size={14} className="text-primary" />
+          <span>Doorstep Technician · 911 Phone Repair</span>
         </span>
       </div>
 

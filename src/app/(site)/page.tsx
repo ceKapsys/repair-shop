@@ -175,7 +175,8 @@ export default async function HomePage() {
               <HeroVisual
                 ticketNo="RS-2611-0042"
                 deviceTitle="iPhone 15 Pro · Screen replacement"
-                location={s.serviceAreas[0] ? `${s.serviceAreas[0].name}, FL` : "Brickell Ave, Miami, FL"}
+                location={s.serviceAreas[0] ? `${s.serviceAreas[0].name}` : "Margate (Center Hub), FL"}
+                imageUrl={s.hero.image || "/images/hero-technician.jpg"}
               />
             </div>
           </div>
