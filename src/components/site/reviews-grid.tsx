@@ -68,7 +68,7 @@ export function ReviewsGrid({
       {/* Reviews Grid */}
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr]">
         {/* Lead Review */}
-        <article className="flex flex-col justify-between rounded-[var(--radius-card)] border border-line-strong bg-background p-6 shadow-card md:col-span-2 lg:col-span-1">
+        <article className="flex flex-col justify-between rounded-[var(--radius-card)] border border-line bg-bg p-6 shadow-card md:col-span-2 lg:col-span-1">
           <div>
             <span className="inline-block rounded-full border border-line-strong px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-steel mb-3">
               Verified Repair
@@ -91,7 +91,7 @@ export function ReviewsGrid({
         </article>
 
         {/* Second Review */}
-        <article className="flex flex-col justify-between rounded-[var(--radius-card)] border border-line bg-background p-6 shadow-card">
+        <article className="flex flex-col justify-between rounded-[var(--radius-card)] border border-line bg-bg p-6 shadow-card">
           <div>
             <span className="inline-block rounded-full border border-line-strong px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-steel mb-3">
               Emergency Visit
@@ -114,7 +114,7 @@ export function ReviewsGrid({
         </article>
 
         {/* Third Review */}
-        <article className="flex flex-col justify-between rounded-[var(--radius-card)] border border-line bg-background p-6 shadow-card">
+        <article className="flex flex-col justify-between rounded-[var(--radius-card)] border border-line bg-bg p-6 shadow-card">
           <div>
             <span className="inline-block rounded-full border border-line-strong px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-steel mb-3">
               Doorstep Service

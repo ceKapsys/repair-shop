@@ -1,7 +1,6 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { connectDb, isDbConfigured } from "./db";
-import { DEFAULT_WINDOWS } from "./site";
 import { TAGS } from "./tags";
 import { Settings } from "@/models/Settings";
 
@@ -62,7 +61,7 @@ export type SiteSettings = {
 };
 
 export const defaultSettings = (): SiteSettings => ({
-  shopName: "911 Mobile Repair Shop",
+  shopName: "911 Doorstep Phone Repair",
   tagline: "Certified Doorstep & 24/7 Emergency Device Repair in Florida",
   timezone: process.env.SHOP_TIMEZONE || "America/New_York",
   currency: process.env.SHOP_CURRENCY || "USD",
@@ -70,6 +69,7 @@ export const defaultSettings = (): SiteSettings => ({
     eyebrow: "Doorstep repair across South Florida",
     title: "Your device, fixed at your door.",
     sub: "Phones, laptops, tablets, consoles, watches and audio. A certified technician comes directly to your home or office in Miami, Fort Lauderdale & Orlando.",
+    image: "/images/hero-technician.jpg",
     trustItems: [
       { icon: "shield", text: "Up to 180-day warranty" },
       { icon: "eye", text: "Repaired in front of you" },
@@ -84,31 +84,65 @@ export const defaultSettings = (): SiteSettings => ({
   ],
   branding: {},
   contacts: {
-    phones: ["(305) 911-7372"],
-    whatsapp: "13059117372",
-    email: "support@911mobilerepair.com",
-    address: "801 Brickell Ave, Suite 900",
-    city: "Miami & South Florida",
+    phones: ["(954) 955-7572"],
+    whatsapp: "https://wa.me/message/6MOOTRK5QAJOD1",
+    email: "911phonerepair.online@gmail.com",
+    address: "4045 NW 16th St, Lauderhill, FL 33313",
+    city: "Lauderhill & South Florida",
   },
-  hours: [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, open: "08:00", close: "21:00", closed: false })),
-  serviceAreas: [
-    { name: "Brickell & Downtown Miami", slug: "brickell-downtown", note: "20–30 min arrival" },
-    { name: "Miami Beach & South Beach", slug: "miami-beach", note: "30–45 min arrival" },
-    { name: "Coral Gables & Coconut Grove", slug: "coral-gables", note: "30–45 min arrival" },
-    { name: "Fort Lauderdale & Broward", slug: "fort-lauderdale", note: "30–50 min arrival" },
-    { name: "Boca Raton & Palm Beach", slug: "boca-palm-beach", note: "45–60 min arrival" },
-    { name: "Orlando & Kissimmee", slug: "orlando-metro", note: "30–45 min arrival" },
+  hours: [
+    { day: 0, open: "06:00", close: "23:45", closed: false },
+    { day: 1, open: "06:00", close: "23:45", closed: false },
+    { day: 2, open: "07:00", close: "23:45", closed: false },
+    { day: 3, open: "06:00", close: "23:45", closed: false },
+    { day: 4, open: "06:00", close: "23:45", closed: false },
+    { day: 5, open: "06:00", close: "23:45", closed: false },
+    { day: 6, open: "06:00", close: "23:45", closed: false },
   ],
-  bookingSlots: { windows: DEFAULT_WINDOWS, leadTimeHours: 2, maxPerSlot: 4, daysAhead: 14, closedDays: [] },
+  serviceAreas: [
+    { name: "Margate, Florida (Center Hub)", slug: "margate", note: "Center Hub · 15–25 min dispatch" },
+    { name: "Pompano Beach", slug: "pompano-beach", note: "20–30 min dispatch" },
+    { name: "Coconut Creek", slug: "coconut-creek", note: "15–25 min dispatch" },
+    { name: "Coral Springs", slug: "coral-springs", note: "15–25 min dispatch" },
+    { name: "North Lauderdale", slug: "north-lauderdale", note: "15–25 min dispatch" },
+    { name: "Tamarac", slug: "tamarac", note: "20–30 min dispatch" },
+    { name: "Parkland", slug: "parkland", note: "20–30 min dispatch" },
+    { name: "Lighthouse Point", slug: "lighthouse-point", note: "20–35 min dispatch" },
+    { name: "Deerfield Beach", slug: "deerfield-beach", note: "20–35 min dispatch" },
+    { name: "Fort Lauderdale", slug: "fort-lauderdale", note: "25–40 min dispatch" },
+    { name: "Sunrise", slug: "sunrise", note: "20–35 min dispatch" },
+    { name: "Boca Raton", slug: "boca-raton", note: "25–40 min dispatch" },
+    { name: "Fort Lauderdale (North)", slug: "fort-lauderdale-north", note: "20–35 min dispatch" },
+    { name: "Hollywood", slug: "hollywood", note: "30–45 min dispatch" },
+    { name: "Davie", slug: "davie", note: "25–40 min dispatch" },
+    { name: "Plantation", slug: "plantation", note: "20–35 min dispatch" },
+    { name: "West Palm Beach", slug: "west-palm-beach", note: "Doorstep mobile dispatch" },
+    { name: "Miami", slug: "miami", note: "Doorstep mobile dispatch" },
+  ],
+  bookingSlots: {
+    windows: ["06:00-08:00", "08:00-10:00", "20:00-22:00", "22:00-23:45"],
+    leadTimeHours: 2,
+    maxPerSlot: 4,
+    daysAhead: 14,
+    closedDays: [],
+  },
   emergency: {
     enabled: true,
     fee: 35,
     responseMinutes: 30,
     title: "Can't wait until tomorrow?",
     body: "Emergency repairs today: a certified technician calls you within 30 minutes of booking.",
-    hoursText: "8 AM–11 PM EST",
-    statusText: "Emergency service open today until 11:00 PM EST",
-    schedule: [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, enabled: true, open: "08:00", close: "23:00", responseMinutes: 30 })),
+    hoursText: "Tue: 7 AM–11:45 PM · Wed–Mon: 6–10 AM & 8–11:45 PM",
+    statusText: "Emergency service open today until 11:45 PM EST",
+    schedule: [
+      { day: 0, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 1, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 2, enabled: true, open: "07:00", close: "23:45", responseMinutes: 30 },
+      { day: 3, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 4, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 5, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 6, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+    ],
   },
   alertEmails: process.env.ALERT_EMAIL ? [process.env.ALERT_EMAIL] : [],
   notifications: { customerConfirmation: true, statusUpdates: true },
@@ -118,7 +152,11 @@ export const defaultSettings = (): SiteSettings => ({
     description: "Doorstep and 24/7 emergency device repair in Florida. Certified technicians, OEM parts, and written warranty.",
   },
   analytics: { ga4Id: (process.env.NEXT_PUBLIC_GA_ID || process.env.NEXT_PUBLIC_GA4_ID) || undefined },
-  socials: {},
+  socials: {
+    instagram: "https://instagram.com/911phonerepaironline",
+    tiktok: "https://www.tiktok.com/@911.phone.repair",
+    facebook: "https://facebook.com/911phonerepaironline",
+  },
   faqs: [
     { question: "How much will my repair cost?", answer: "Each repair shows its upfront price before you book. We never charge surprise diagnostic fees." },
     { question: "Do repairs come with a warranty?", answer: "Yes. Every repair includes up to a 180-day parts and labor warranty." },
@@ -145,7 +183,7 @@ export function mergeSettings(s: any): SiteSettings {
       eyebrow: s.hero?.eyebrow || d.hero.eyebrow,
       title: s.hero?.title || d.hero.title,
       sub: s.hero?.sub || d.hero.sub,
-      image: s.hero?.image || undefined,
+      image: s.hero?.image || d.hero.image || "/images/hero-technician.jpg",
       trustItems: arr(s.hero?.trustItems, d.hero.trustItems ?? []),
     },
     howItWorks: arr(s.howItWorks, d.howItWorks ?? []),

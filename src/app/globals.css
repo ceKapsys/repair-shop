@@ -15,12 +15,15 @@
   --color-steel: #5379ae;
   --color-mist: #a8c4ec;
   --color-bg: #ffffff;
+  --color-background: #ffffff;
   --color-surface: #f5f8fd;
   --color-line: #e8f0fb;
+  --color-line-strong: #d4e2f5;
   --color-night: #262b40;
   --color-emergency: #b42318;
   --color-success: #15803d;
   --color-warning: #b45309;
+  --color-star: #f5b400;
   --color-on-primary: #ffffff;
   --color-scrim: rgb(20 24 36 / 0.5);
 
@@ -60,12 +63,15 @@
   --color-steel: #5379ae;
   --color-mist: #2c444c;
   --color-bg: #1b1f2e;
+  --color-background: #1b1f2e;
   --color-surface: #262b40;
   --color-line: #2c444c;
+  --color-line-strong: #3d4b66;
   --color-night: #141824;
   --color-emergency: #f87171;
   --color-success: #4ade80;
   --color-warning: #fbbf24;
+  --color-star: #f5b400;
   --color-on-primary: #ffffff;
   color-scheme: dark;
 }
@@ -78,12 +84,15 @@
     --color-steel: #5379ae;
     --color-mist: #2c444c;
     --color-bg: #1b1f2e;
+    --color-background: #1b1f2e;
     --color-surface: #262b40;
     --color-line: #2c444c;
+    --color-line-strong: #3d4b66;
     --color-night: #141824;
     --color-emergency: #f87171;
     --color-success: #4ade80;
     --color-warning: #fbbf24;
+    --color-star: #f5b400;
     --color-on-primary: #ffffff;
     color-scheme: dark;
   }
@@ -400,8 +409,43 @@ dialog[open]::backdrop {
 
 .stars {
   display: inline-flex;
-  gap: 1px;
-  color: var(--color-warning);
+  gap: 2px;
+  color: var(--color-star);
+}
+
+.stars svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+.google-blue {
+  fill: #4285f4;
+}
+
+.google-green {
+  fill: #34a853;
+}
+
+.google-yellow {
+  fill: #fbbc05;
+}
+
+.google-red {
+  fill: #ea4335;
+}
+
+.frosted-glass {
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--color-line) 80%, transparent);
+  box-shadow: 0 20px 45px -10px rgb(0 0 0 / 0.18), inset 0 1px 1px 0 rgb(255 255 255 / 0.4);
+}
+
+.dark .frosted-glass {
+  background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-line) 60%, transparent);
+  box-shadow: 0 20px 45px -10px rgb(0 0 0 / 0.5), inset 0 1px 1px 0 rgb(255 255 255 / 0.08);
 }
 
 .dot {

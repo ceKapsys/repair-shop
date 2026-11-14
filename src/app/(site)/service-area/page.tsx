@@ -28,15 +28,37 @@ export default async function ServiceAreaPage() {
       <PageHero title={c.title} intro={fill(c.intro, { city: s.contacts.city })} crumbs={<Breadcrumbs items={[{ label: c.title, href: "/service-area" }]} />} />
       <div className="container-page grid gap-12 pb-16 md:pb-24">
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {s.serviceAreas.map((a) => (
-            <li key={a.slug} className="flex items-start gap-3 rounded-card border border-line p-5">
-              <MapPin size={24} strokeWidth={1.75} className="shrink-0 text-steel" aria-hidden />
-              <span>
-                <span className="block font-medium">{a.name}</span>
-                {a.note && <span className="text-sm leading-5 text-ink-soft">{a.note}</span>}
-              </span>
-            </li>
-          ))}
+          {s.serviceAreas.map((a) => {
+            const isHub = a.name.toLowerCase().includes("center hub") || a.slug === "margate";
+            return (
+              <li
+                key={a.slug}
+                className={`flex items-start gap-3 rounded-card p-5 ${
+                  isHub
+                    ? "border-2 border-primary bg-primary/5 shadow-xs"
+                    : "border border-line"
+                }`}
+              >
+                <MapPin
+                  size={24}
+                  strokeWidth={1.75}
+                  className={`shrink-0 ${isHub ? "text-primary" : "text-steel"}`}
+                  aria-hidden
+                />
+                <span>
+                  <span className="flex items-center gap-2 font-medium text-ink">
+                    <span>{a.name}</span>
+                    {isHub && (
+                      <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-semibold text-on-primary">
+                        Main Hub
+                      </span>
+                    )}
+                  </span>
+                  {a.note && <span className="text-sm leading-5 text-ink-soft">{a.note}</span>}
+                </span>
+              </li>
+            );
+          })}
         </ul>
         <div>
           <p className="max-w-[60ch] text-ink-soft">{fill(c.outside, { phone: s.contacts.phones[0] })}</p>

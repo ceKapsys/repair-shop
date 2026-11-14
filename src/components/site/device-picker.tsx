@@ -245,7 +245,7 @@ export function DevicePicker({ dbBrands = [], dbDevices = [] }: DevicePickerProp
   }, [searchQuery, currentCategory, effectiveBrand, dbDevices, dbBrands]);
 
   return (
-    <div className="overflow-hidden rounded-[18px] border border-line bg-background shadow-card">
+    <div className="overflow-hidden rounded-[18px] border border-line bg-bg shadow-card">
       {/* Category Tabs Header */}
       <div
         className="flex gap-1 overflow-x-auto border-b border-line p-2 scrollbar-none"
@@ -335,7 +335,7 @@ export function DevicePicker({ dbBrands = [], dbDevices = [] }: DevicePickerProp
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoComplete="off"
-                className="h-12 w-full rounded-[var(--r-ctrl)] border border-line-strong bg-background pl-10 pr-4 text-sm text-ink placeholder:text-ink-soft/60 focus:border-transparent focus:outline-hidden focus:ring-2 focus:ring-primary"
+                className="h-12 w-full rounded-[var(--r-ctrl)] border border-line bg-bg pl-10 pr-4 text-sm text-ink placeholder:text-ink-soft/60 focus:border-transparent focus:outline-hidden focus:ring-2 focus:ring-primary"
               />
             </div>
           </div>
@@ -346,7 +346,7 @@ export function DevicePicker({ dbBrands = [], dbDevices = [] }: DevicePickerProp
               <li key={`${item.brand}-${item.model}`}>
                 <Link
                   href={item.url}
-                  className="pressable group flex min-h-12 items-center justify-between gap-2 rounded-[var(--r-ctrl)] border border-line bg-background p-3 text-sm font-medium text-ink transition-colors hover:border-primary hover:text-primary"
+                  className="pressable group flex min-h-12 items-center justify-between gap-2 rounded-[var(--r-ctrl)] border border-line bg-bg p-3 text-sm font-medium text-ink transition-colors hover:border-primary hover:text-primary"
                 >
                   <span className="truncate">{item.model}</span>
                   <ArrowRight
