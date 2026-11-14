@@ -112,31 +112,24 @@ export default async function HomePage() {
 
               {/* Action Buttons */}
               <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/book"
+                  className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] bg-primary px-6 text-base font-semibold text-on-primary shadow-xs transition-colors hover:bg-primary-strong"
+                >
+                  <span>Book online</span>
+                  <ArrowRight size={17} />
+                </Link>
+
                 <a
                   href={waLink(whatsappNumber)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] bg-primary px-6 text-base font-semibold text-on-primary shadow-xs transition-colors hover:bg-primary-strong"
-                >
-                  <MessageCircle size={19} />
-                  <span>Chat on WhatsApp</span>
-                  <ArrowRight size={17} />
-                </a>
-
-                <Link
-                  href="/book"
-                  className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] border border-line bg-bg px-5 text-base font-semibold text-ink transition-colors hover:bg-surface"
-                >
-                  <span>Book online</span>
-                </Link>
-
-                <Link
-                  href="#emergency"
                   className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] border border-ink bg-transparent px-5 text-base font-semibold text-ink transition-colors hover:bg-ink hover:text-bg"
                 >
                   <span className="dot" aria-hidden="true" />
-                  <span>Emergency? Call now</span>
-                </Link>
+                  <span>Emergency Booking</span>
+                  <MessageCircle size={17} className="text-success shrink-0" />
+                </a>
               </div>
 
               {/* Trust Matrix (Redesigned Hero Social Proof & Trust Badges) */}
@@ -571,22 +564,24 @@ export default async function HomePage() {
             </div>
 
             <div className="flex flex-wrap gap-3">
+              <Link
+                href="/book"
+                className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] bg-primary px-6 text-base font-semibold text-on-primary shadow-xs transition-colors hover:bg-primary-strong"
+              >
+                <span>Book online</span>
+                <ArrowRight size={17} />
+              </Link>
+
               <a
                 href={waLink(whatsappNumber)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] bg-primary px-6 text-base font-semibold text-on-primary shadow-xs transition-colors hover:bg-primary-strong"
-              >
-                <MessageCircle size={18} />
-                <span>Chat on WhatsApp</span>
-              </a>
-
-              <Link
-                href="/book"
                 className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] border border-ink bg-transparent px-6 text-base font-semibold text-ink transition-colors hover:bg-ink hover:text-bg"
               >
-                Book online
-              </Link>
+                <span className="dot" aria-hidden="true" />
+                <span>Emergency Booking</span>
+                <MessageCircle size={17} className="text-success shrink-0" />
+              </a>
             </div>
           </div>
         </div>
