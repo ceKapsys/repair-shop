@@ -84,7 +84,7 @@ export const defaultSettings = (): SiteSettings => ({
   branding: {},
   contacts: {
     phones: ["(954) 955-7572"],
-    whatsapp: "19549557572",
+    whatsapp: "https://wa.me/message/6MOOTRK5QAJOD1",
     email: "911phonerepair.online@gmail.com",
     address: "4045 NW 16th St, Lauderhill, FL 33313",
     city: "Lauderhill & South Florida",

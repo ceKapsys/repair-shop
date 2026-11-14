@@ -16,6 +16,7 @@ import { JsonLd } from "@/components/site/json-ld";
 import { PriceListRows } from "@/components/site/price-list-rows";
 import { ReviewsGrid } from "@/components/site/reviews-grid";
 import { AreasServed } from "@/components/site/areas-served";
+import { waLink } from "@/lib/links";
 import {
   getAllDevices,
   getBrands,
@@ -111,12 +112,22 @@ export default async function HomePage() {
 
               {/* Action Buttons */}
               <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href={waLink(whatsappNumber)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] bg-primary px-6 text-base font-semibold text-on-primary shadow-xs transition-colors hover:bg-primary-strong"
+                >
+                  <MessageCircle size={19} />
+                  <span>Chat on WhatsApp</span>
+                  <ArrowRight size={17} />
+                </a>
+
                 <Link
                   href="/book"
-                  className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] bg-primary px-5 text-base font-semibold text-on-primary shadow-xs transition-colors hover:bg-primary-strong"
+                  className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] border border-line-strong bg-background px-5 text-base font-semibold text-ink transition-colors hover:bg-surface"
                 >
-                  <span>Book a repair</span>
-                  <ArrowRight size={17} />
+                  <span>Book online</span>
                 </Link>
 
                 <Link
@@ -495,22 +506,22 @@ export default async function HomePage() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <Link
-                href="/book"
-                className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] bg-primary px-6 text-base font-semibold text-on-primary shadow-xs transition-colors hover:bg-primary-strong"
-              >
-                Book a repair
-              </Link>
-
               <a
-                href={`https://wa.me/${whatsappNumber.replace(/\D/g, "")}?text=Hi%20911%20Mobile%20Repair%20Shop%2C%20I%20need%20a%20repair.`}
+                href={waLink(whatsappNumber)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] border border-ink bg-transparent px-6 text-base font-semibold text-ink transition-colors hover:bg-ink hover:text-bg"
+                className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] bg-primary px-6 text-base font-semibold text-on-primary shadow-xs transition-colors hover:bg-primary-strong"
               >
                 <MessageCircle size={18} />
-                <span>WhatsApp</span>
+                <span>Chat on WhatsApp</span>
               </a>
+
+              <Link
+                href="/book"
+                className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-[var(--r-ctrl)] border border-ink bg-transparent px-6 text-base font-semibold text-ink transition-colors hover:bg-ink hover:text-bg"
+              >
+                Book online
+              </Link>
             </div>
           </div>
         </div>

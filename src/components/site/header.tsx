@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Phone } from "lucide-react";
+import { MessageCircle, Phone } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { copy } from "@/content/copy";
+import { waLink } from "@/lib/links";
 import type { SiteSettings } from "@/lib/settings";
 import { MobileMenu } from "./mobile-menu";
 
@@ -82,12 +83,15 @@ export function SiteHeader({ s }: { s: SiteSettings }) {
           </a>
         </div>
 
-        <Link
-          href="/book"
+        <a
+          href={waLink(s.contacts.whatsapp)}
+          target="_blank"
+          rel="noopener noreferrer"
           className={buttonVariants({ size: "sm", className: "md:ml-2 font-semibold" })}
         >
-          {copy.nav.book}
-        </Link>
+          <MessageCircle size={15} className="mr-1.5" />
+          <span>WhatsApp</span>
+        </a>
         <MobileMenu links={links} />
       </div>
     </header>
