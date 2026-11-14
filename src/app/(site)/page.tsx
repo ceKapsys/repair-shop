@@ -15,6 +15,7 @@ import { HeroVisual } from "@/components/site/hero-visual";
 import { JsonLd } from "@/components/site/json-ld";
 import { PriceListRows } from "@/components/site/price-list-rows";
 import { ReviewsGrid } from "@/components/site/reviews-grid";
+import { AreasServed } from "@/components/site/areas-served";
 import {
   getAllDevices,
   getBrands,
@@ -471,6 +472,11 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* =========================================================================
+          AREAS WE SERVE (#areas)
+          ========================================================================= */}
+      <AreasServed serviceAreas={s.serviceAreas} phone={phone} />
 
       {/* =========================================================================
           FINAL CTA BOX (#contact)
