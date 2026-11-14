@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 export const inputClass =
-  "mt-1.5 block h-11 w-full rounded-[var(--radius-input)] border border-border bg-background px-3 text-base text-foreground placeholder:text-muted/70 aria-[invalid=true]:border-emergency disabled:opacity-60";
+  "mt-1.5 block h-11 w-full rounded-input border border-line bg-bg px-3 text-base text-ink placeholder:text-ink-soft/70 aria-[invalid=true]:border-emergency disabled:opacity-60";
 export const textareaClass = inputClass.replace("h-11", "min-h-24 py-2.5");
 
 export function Field({
@@ -31,7 +31,7 @@ export function Field({
       {error ? (
         <p id={`${id}-error`} role="alert" className="mt-1.5 text-sm text-emergency">{error}</p>
       ) : hint ? (
-        <p id={`${id}-hint`} className="mt-1.5 text-sm text-muted">{hint}</p>
+        <p id={`${id}-hint`} className="mt-1.5 text-sm text-ink-soft">{hint}</p>
       ) : null}
     </div>
   );
@@ -56,7 +56,7 @@ export function Switch({
     <div className={cn("flex items-start justify-between gap-4", className)}>
       <div>
         <label htmlFor={id} className="text-sm font-medium">{label}</label>
-        {hint && <p className="text-sm text-muted">{hint}</p>}
+        {hint && <p className="text-sm text-ink-soft">{hint}</p>}
       </div>
       <button
         id={id}
@@ -66,12 +66,12 @@ export function Switch({
         onClick={() => onChange(!checked)}
         className={cn(
           "relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors duration-150",
-          checked ? "bg-primary" : "bg-border",
+          checked ? "bg-primary" : "bg-line",
         )}
       >
         <span
           className={cn(
-            "inline-block size-5 rounded-full bg-white shadow-1 transition-transform duration-150 [transition-timing-function:var(--ease-out)]",
+            "inline-block size-5 rounded-full bg-on-primary shadow-card transition-transform duration-150 [transition-timing-function:var(--ease-out)]",
             checked ? "translate-x-6" : "translate-x-1",
           )}
         />
@@ -82,7 +82,7 @@ export function Switch({
 
 export function Badge({ children, tone = "neutral", className }: { children: React.ReactNode; tone?: "neutral" | "primary" | "success" | "warning" | "emergency"; className?: string }) {
   const tones = {
-    neutral: "bg-surface text-muted border-border",
+    neutral: "bg-surface text-ink-soft border-line",
     primary: "bg-primary/10 text-primary border-primary/20",
     success: "bg-success/10 text-success border-success/20",
     warning: "bg-warning/10 text-warning border-warning/20",
@@ -92,9 +92,9 @@ export function Badge({ children, tone = "neutral", className }: { children: Rea
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cn("animate-pulse rounded-lg bg-border/60", className)} />;
+  return <div className={cn("animate-pulse rounded-lg bg-line/60", className)} />;
 }
 
 export function Card({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn("rounded-[var(--radius-card)] border border-border bg-background p-5 shadow-1", className)}>{children}</div>;
+  return <div className={cn("rounded-card border border-line bg-bg p-5 shadow-card", className)}>{children}</div>;
 }

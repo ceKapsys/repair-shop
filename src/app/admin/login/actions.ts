@@ -27,3 +27,27 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
     throw err; // lets the redirect through
   }
 }
+
+export async function devLoginAction(role: "owner" | "editor" = "owner", callback?: string): Promise<LoginState> {
+  if (process.env.NODE_ENV === "production") {
+    return { error: "Dev login is disabled in production." };
+  }
+  const redirectTo = callback && callback.startsWith("/admin") && !callback.startsWith("/admin/login") ? callback : "/admin";
+  const email = role === "owner" ? ((process.env.SEED_ADMIN_EMAIL || process.env.OWNER_EMAIL) || "admin@911repair.com") : "tech@911repair.com";
+  try {
+    await signIn("credentials", {
+      email,
+      password: "__DEV_ONE_CLICK_LOGIN__",
+      redirectTo,
+    });
+    return null;
+  } catch (err) {
+    if (err instanceof CredentialsSignin) {
+      return { error: "Dev login failed." };
+    }
+    if (err instanceof AuthError) {
+      return { error: "Sign-in failed. Try again." };
+    }
+    throw err;
+  }
+}

@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import type { ReactElement } from "react";
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-const FROM = process.env.EMAIL_FROM || "911 Mobile Repair Shop <onboarding@resend.dev>";
+const FROM = (process.env.MAIL_FROM || process.env.EMAIL_FROM) || "Bookings <onboarding@resend.dev>";
 
 /** Send an email via Resend. Logs instead of sending when no API key is configured. Never throws. */
 export async function sendEmail(opts: { to: string | string[]; subject: string; react: ReactElement; replyTo?: string }) {

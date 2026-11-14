@@ -8,13 +8,13 @@ import { FaqList, MultiCheck, NumberInput, SelectInput, SlugInput, TextArea, Tex
 import { ImageListInput } from "@/components/admin/image-input";
 import { SeoPanel } from "@/components/admin/seo-panel";
 import { RichTextInput } from "@/components/admin/rich-text-lazy";
-import { priceLabel } from "@/lib/format";
+import { normalisePriceType, priceLabel, priceText } from "@/lib/format";
 import type { CategoryT, ServiceT } from "@/lib/types";
 import { serviceInput } from "@/lib/validation/admin";
 import { saveDoc } from "../../actions";
 
 const blank = {
-  title: "", slug: "", categoryId: "", shortDesc: "", body: { html: "" }, icon: "", images: [], priceType: "from", priceMin: undefined, priceMax: undefined,
+  title: "", slug: "", categoryId: "", shortDesc: "", verbPhrase: "", body: { html: "" }, icon: "", images: [], priceType: "from", priceMin: undefined, priceMax: undefined,
   showPrice: true, duration: "", warrantyDays: 90, partsNote: "", isEmergencyAvailable: false, deviceIds: [], faqs: [], isActive: true, seo: { keywords: [] },
 };
 
@@ -25,7 +25,7 @@ export function ServiceEditor({
 }) {
   const router = useRouter();
   const form = useEntityForm({
-    initial: service ?? blank,
+    initial: service ? { ...service, priceType: normalisePriceType(service.priceType) } : blank,
     isNew: !service,
     schema: serviceInput,
     save: (v) => saveDoc("service", service?._id ?? null, v),
@@ -59,6 +59,7 @@ export function ServiceEditor({
                     <TextInput name="icon" label="Icon (Lucide name)" placeholder="smartphone" hint="Any icon name from lucide.dev" />
                   </div>
                   <TextArea name="shortDesc" label="Short description" hint="Shown on service cards (1–2 sentences)." counter={{ max: 300 }} />
+                  <TextInput name="verbPhrase" label="What you do, in a few words" placeholder="replace cracked screens" hint="Completes the page intro: “We … at your home or office.”" />
                 </Section>
                 <Section title="Price and time">
                   <SelectInput
@@ -67,17 +68,15 @@ export function ServiceEditor({
                     options={[
                       { value: "fixed", label: "Fixed price" },
                       { value: "from", label: "“From” price" },
-                      { value: "range", label: "Price range" },
-                      { value: "quote", label: "Quote only (no price)" },
+                      { value: "hidden", label: "Hidden (“Price after a free check”)" },
                     ]}
                   />
-                  {v.priceType !== "quote" && (
+                  {v.priceType !== "hidden" && (
                     <div className="grid gap-5 sm:grid-cols-2">
-                      <NumberInput name="priceMin" label={v.priceType === "range" ? "Min price" : "Price"} prefix={currency} />
-                      {v.priceType === "range" && <NumberInput name="priceMax" label="Max price" prefix={currency} />}
+                      <NumberInput name="priceMin" label="Price" prefix={currency} />
                     </div>
                   )}
-                  <Toggle name="showPrice" label="Show price on the website" hint="Turn off to show “Get a quote” instead." />
+                  <Toggle name="showPrice" label="Show price on the website" hint="Turn off to show “Price after a free check” instead." />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <TextInput name="duration" label="Typical time" placeholder="45–60 min" />
                     <NumberInput name="warrantyDays" label="Warranty (days)" step="1" />
@@ -104,13 +103,13 @@ export function ServiceEditor({
                 </Section>
                 <div>
                   <p className="mb-2 text-sm font-medium">Card preview</p>
-                  <div className="rounded-[var(--radius-card)] border border-border bg-background p-5 shadow-1">
+                  <div className="rounded-card border border-line bg-bg p-5 shadow-card">
                     <p className="font-semibold">{v.title || "Service name"}</p>
-                    <p className="mt-1 line-clamp-2 text-sm text-muted">{v.shortDesc || "Short description"}</p>
+                    <p className="mt-1 line-clamp-2 text-sm text-ink-soft">{v.shortDesc || "Short description"}</p>
                     <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
-                      <span className="rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary">{price ?? "Get a quote"}</span>
-                      {v.duration && <span className="flex items-center gap-1 text-muted"><Clock size={14} /> {v.duration}</span>}
-                      {v.warrantyDays ? <span className="flex items-center gap-1 text-muted"><ShieldCheck size={14} /> {v.warrantyDays}-day warranty</span> : null}
+                      <span className="rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary">{priceText(price)}</span>
+                      {v.duration && <span className="flex items-center gap-1 text-ink-soft"><Clock size={14} /> {v.duration}</span>}
+                      {v.warrantyDays ? <span className="flex items-center gap-1 text-ink-soft"><ShieldCheck size={14} /> {v.warrantyDays}-day warranty</span> : null}
                     </div>
                   </div>
                 </div>

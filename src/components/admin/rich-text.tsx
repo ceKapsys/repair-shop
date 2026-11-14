@@ -36,7 +36,7 @@ function Btn({ on, label, active, children, disabled }: { on: () => void; label:
       title={label}
       aria-pressed={active}
       disabled={disabled}
-      className={cn("flex size-10 items-center justify-center rounded-lg text-muted hover:bg-surface hover:text-foreground disabled:opacity-30", active && "bg-surface text-foreground")}
+      className={cn("flex size-10 items-center justify-center rounded-lg text-ink-soft hover:bg-surface hover:text-ink disabled:opacity-30", active && "bg-surface text-ink")}
     >
       {children}
     </button>
@@ -82,7 +82,7 @@ function Toolbar({ editor, folder }: { editor: Editor; folder: string }) {
 
   const s = 18, w = 1.5;
   return (
-    <div className="sticky top-0 z-10 flex flex-wrap items-center gap-0.5 border-b border-border bg-background p-1">
+    <div className="sticky top-0 z-10 flex flex-wrap items-center gap-0.5 border-b border-line bg-bg p-1">
       <Btn label="Heading 2" active={editor.isActive("heading", { level: 2 })} on={() => c().toggleHeading({ level: 2 }).run()}><Heading2 size={s} strokeWidth={w} /></Btn>
       <Btn label="Heading 3" active={editor.isActive("heading", { level: 3 })} on={() => c().toggleHeading({ level: 3 }).run()}><Heading3 size={s} strokeWidth={w} /></Btn>
       <Btn label="Bold" active={editor.isActive("bold")} on={() => c().toggleBold().run()}><Bold size={s} strokeWidth={w} /></Btn>
@@ -96,14 +96,14 @@ function Toolbar({ editor, folder }: { editor: Editor; folder: string }) {
       <Btn label="Link" active={editor.isActive("link")} on={setLink}><Link2 size={s} strokeWidth={w} /></Btn>
       <Btn label="Remove link" disabled={!editor.isActive("link")} on={() => c().unsetLink().run()}><Unlink size={s} strokeWidth={w} /></Btn>
       <div className="relative">
-        <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={openPicker} className="h-10 rounded-lg px-2.5 text-sm text-muted hover:bg-surface hover:text-foreground">
+        <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={openPicker} className="h-10 rounded-lg px-2.5 text-sm text-ink-soft hover:bg-surface hover:text-ink">
           Internal link
         </button>
         {picker && (
-          <div className="absolute top-11 left-0 z-20 w-72 rounded-[var(--radius-input)] border border-border bg-background p-2 shadow-3">
-            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search pages…" className="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm" />
+          <div className="absolute top-11 left-0 z-20 w-72 rounded-input border border-line bg-bg p-2 shadow-card">
+            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search pages…" className="h-10 w-full rounded-lg border border-line bg-bg px-2 text-sm" />
             <div className="mt-1 max-h-64 overflow-y-auto">
-              {!targets && <p className="p-2 text-sm text-muted">Loading…</p>}
+              {!targets && <p className="p-2 text-sm text-ink-soft">Loading…</p>}
               {targets
                 ?.filter((t) => !q || t.label.toLowerCase().includes(q.toLowerCase()))
                 .slice(0, 40)
@@ -119,7 +119,7 @@ function Toolbar({ editor, folder }: { editor: Editor; folder: string }) {
                     }}
                     className="block w-full rounded-md px-2 py-2 text-left text-sm hover:bg-surface"
                   >
-                    <span className="text-muted">{t.group} · </span>{t.label}
+                    <span className="text-ink-soft">{t.group} · </span>{t.label}
                   </button>
                 ))}
             </div>
@@ -130,8 +130,8 @@ function Toolbar({ editor, folder }: { editor: Editor; folder: string }) {
       <Btn label="Table" on={() => c().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}><Table size={s} strokeWidth={w} /></Btn>
       {editor.isActive("table") && (
         <>
-          <button type="button" onClick={() => c().addRowAfter().run()} className="h-10 rounded-lg px-2 text-xs text-muted hover:bg-surface">+ row</button>
-          <button type="button" onClick={() => c().addColumnAfter().run()} className="h-10 rounded-lg px-2 text-xs text-muted hover:bg-surface">+ col</button>
+          <button type="button" onClick={() => c().addRowAfter().run()} className="h-10 rounded-lg px-2 text-xs text-ink-soft hover:bg-surface">+ row</button>
+          <button type="button" onClick={() => c().addColumnAfter().run()} className="h-10 rounded-lg px-2 text-xs text-ink-soft hover:bg-surface">+ col</button>
           <button type="button" onClick={() => c().deleteTable().run()} className="h-10 rounded-lg px-2 text-xs text-emergency hover:bg-surface">delete table</button>
         </>
       )}
@@ -164,7 +164,7 @@ export default function RichTextInput({ name, label, folder = "blog", minHeight 
   return (
     <div>
       <p className="text-sm font-medium">{label}</p>
-      <div className="mt-1.5 rounded-[var(--radius-input)] border border-border bg-background focus-within:outline-2 focus-within:outline-primary">
+      <div className="mt-1.5 rounded-input border border-line bg-bg focus-within:outline-2 focus-within:outline-primary">
         {editor && <Toolbar editor={editor} folder={folder} />}
         <EditorContent editor={editor} />
       </div>

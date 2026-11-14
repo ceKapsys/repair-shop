@@ -1,5 +1,5 @@
 import "server-only";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { isValidObjectId } from "mongoose";
 import { connectDb } from "./db";
 import { loadSettings } from "./settings";
@@ -35,4 +35,13 @@ export async function deviceOptions() {
   return plain<DeviceT[]>(devices)
     .map((d) => ({ value: d._id, label: d.model, group: b.get(d.brandId)?.name ?? "—" }))
     .sort((x, y) => x.group.localeCompare(y.group) || x.label.localeCompare(y.label));
+}
+
+/** Guard for owner-only admin pages (Settings, Users). Editors are sent back to the dashboard. */
+export async function requireOwnerPage() {
+  const { currentUser } = await import("@/auth");
+  const user = await currentUser();
+  if (!user) redirect("/admin/login");
+  if (user.role !== "owner") redirect("/admin");
+  return user;
 }

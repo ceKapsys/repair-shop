@@ -1,16 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import { getSettings } from "@/lib/settings";
 import { siteDefaults } from "@/lib/site";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-jakarta",
-  weight: ["600", "700", "800"],
-  display: "swap",
-});
+/** Sets .dark / .light before paint: the saved choice, else the system setting. Without JS, CSS follows the system. */
+const themeScript = `try{var t=localStorage.getItem("theme");if(t!=="dark"&&t!=="light")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.classList.add(t)}catch(e){}`;
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
@@ -25,25 +21,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1220" },
-  ],
-};
+export const viewport: Viewport = { colorScheme: "light dark" };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const s = await getSettings();
-  // Admin brand colour re-themes the light palette without a code change.
-  const brandCss =
-    s.branding.primaryColor.toLowerCase() !== siteDefaults.primaryColor.toLowerCase() &&
-    /^#[0-9a-f]{6}$/i.test(s.branding.primaryColor)
-      ? `@media (prefers-color-scheme: light){:root{--primary:${s.branding.primaryColor}}}`
-      : null;
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jakarta.variable}`}>
-      <head>{brandCss && <style>{brandCss}</style>}</head>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );

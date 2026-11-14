@@ -35,16 +35,16 @@ export function Modal({
       onClick={(e) => e.target === ref.current && onClose()}
       aria-label={title}
       className={cn(
-        "bg-background text-foreground shadow-3 backdrop:bg-slate-950/40",
+        "bg-bg text-ink shadow-card",
         variant === "center"
-          ? "modal-pop m-auto w-[calc(100%-2rem)] max-w-lg rounded-[var(--radius-card)] p-0"
+          ? "modal-pop m-auto w-[calc(100%-2rem)] max-w-lg rounded-card p-0"
           : "drawer-slide my-0 mr-0 ml-auto h-dvh max-h-dvh w-full max-w-xl p-0",
         className,
       )}
     >
-      <div className="flex items-center justify-between border-b border-border px-5 py-4">
+      <div className="flex items-center justify-between border-b border-line px-5 py-4">
         <h2 className="text-lg font-semibold">{title}</h2>
-        <button type="button" onClick={onClose} aria-label="Close" className="flex size-11 items-center justify-center rounded-lg text-muted hover:bg-surface">
+        <button type="button" onClick={onClose} aria-label="Close" className="flex size-11 items-center justify-center rounded-lg text-ink-soft hover:bg-surface">
           <X size={20} strokeWidth={1.5} />
         </button>
       </div>
@@ -72,7 +72,7 @@ export function ConfirmDialog({
 }) {
   return (
     <Modal open={open} onClose={onCancel} title={title}>
-      {body && <div className="text-muted">{body}</div>}
+      {body && <div className="text-ink-soft">{body}</div>}
       <div className="mt-6 flex justify-end gap-3">
         <Button variant="outline" onClick={onCancel}>Cancel</Button>
         <Button variant={destructive ? "emergency" : "primary"} onClick={onConfirm} autoFocus>

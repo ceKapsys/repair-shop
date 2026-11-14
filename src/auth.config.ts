@@ -8,7 +8,7 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request }) {
       const { pathname } = request.nextUrl;
-      if (pathname.startsWith("/admin/login")) return true;
+      if (pathname.startsWith("/admin/login") || pathname.startsWith("/admin/dev-login")) return true;
       if (pathname.startsWith("/admin")) return Boolean(auth?.user);
       return true;
     },

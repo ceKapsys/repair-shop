@@ -30,7 +30,8 @@ export const imageSchema = new Schema(
 
 export const faqSchema = new Schema({ question: String, answer: String }, { _id: false });
 
-export const PRICE_TYPES = ["fixed", "from", "range", "quote"] as const;
+/** `range` and `quote` are legacy values kept so existing documents stay valid. */
+export const PRICE_TYPES = ["fixed", "from", "hidden", "range", "quote"] as const;
 export const DEVICE_TYPES = [
   "phone",
   "laptop",

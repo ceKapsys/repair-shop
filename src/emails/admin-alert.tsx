@@ -24,23 +24,23 @@ export function AdminAlertEmail(d: BookingEmailData) {
     d.address.mapLink ||
     `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([d.address.line, d.address.area, d.address.city].filter(Boolean).join(", "))}`;
   return (
-    <EmailLayout shopName={d.shopName} preview={`${emergency ? "EMERGENCY " : ""}${d.bookingNo} — ${d.device}`}>
+    <EmailLayout shopName={d.shopName} preview={`${emergency ? "EMERGENCY " : ""}${d.bookingNo}: ${d.device}`}>
       {emergency && (
-        <Text style={{ background: colors.emergency, color: "#fff", borderRadius: 8, padding: "6px 10px", fontWeight: 700, fontSize: 13, display: "inline-block" }}>
-          Emergency — call the customer now
+        <Text style={{ background: colors.emergency, color: colors.white, borderRadius: 8, padding: "6px 10px", fontWeight: 600, fontSize: 13, display: "inline-block" }}>
+          Emergency: call the customer now
         </Text>
       )}
       <Heading as="h1" style={{ fontSize: 20, margin: "12px 0 4px" }}>
         {emergency ? "Emergency booking" : "New booking"} {d.bookingNo}
       </Heading>
       <Text style={{ color: colors.muted, margin: "0 0 12px" }}>
-        {d.device} · {d.services.join(", ") || "Not sure yet"}
+        {d.device} · {d.services.join(", ") || "Problem described in the notes"}
       </Text>
       <Section style={{ margin: "8px 0 16px" }}>
-        <Button href={`tel:${digits(d.customer.phone)}`} style={{ background: colors.primary, color: "#fff", padding: "10px 16px", borderRadius: 10, fontWeight: 600, marginRight: 8 }}>
+        <Button href={`tel:${digits(d.customer.phone)}`} style={{ background: colors.primary, color: colors.white, padding: "10px 16px", borderRadius: 10, fontWeight: 600, marginRight: 8 }}>
           Call {d.customer.name}
         </Button>
-        <Button href={`https://wa.me/${d.customer.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${d.customer.name}, this is ${d.shopName} about booking ${d.bookingNo}.`)}`} style={{ background: "#25D366", color: "#fff", padding: "10px 16px", borderRadius: 10, fontWeight: 600 }}>
+        <Button href={`https://wa.me/${d.customer.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${d.customer.name}, this is ${d.shopName} about booking ${d.bookingNo}.`)}`} style={{ background: colors.night, color: colors.white, padding: "10px 16px", borderRadius: 10, fontWeight: 600 }}>
           WhatsApp
         </Button>
       </Section>
@@ -57,7 +57,7 @@ export function AdminAlertEmail(d: BookingEmailData) {
         </Section>
       )}
       <Text style={{ marginTop: 16 }}>
-        <Link href={d.adminUrl}>Open in admin →</Link>
+        <Link href={d.adminUrl}>Open in admin</Link>
       </Text>
     </EmailLayout>
   );

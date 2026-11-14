@@ -6,8 +6,8 @@ import { EditorShell, Section } from "@/components/admin/editor-shell";
 import { NumberInput, SelectInput, SlugInput, TextInput, Toggle, useEntityForm, useForm } from "@/components/admin/form";
 import { ImageUrlInput } from "@/components/admin/image-input";
 import { SeoPanel } from "@/components/admin/seo-panel";
-import { inputClass, Switch } from "@/components/ui/field";
-import { priceLabel } from "@/lib/format";
+import { inputClass } from "@/components/ui/field";
+import { priceLabel, repairPriceType } from "@/lib/format";
 import type { BrandT, DeviceRepairT, DeviceT, ServiceT } from "@/lib/types";
 import { deviceInput } from "@/lib/validation/admin";
 import { saveDoc } from "../../../actions";
@@ -20,32 +20,32 @@ function RepairMatrix({ services, currency }: { services: ServiceT[]; currency: 
   const update = (serviceId: string, patch: Partial<DeviceRepairT> | null) => {
     const has = byId.has(serviceId);
     if (patch === null) return f.set("repairs", repairs.filter((r) => r.serviceId !== serviceId));
-    if (!has) return f.set("repairs", [...repairs, { serviceId, showPrice: true, ...patch }]);
+    if (!has) return f.set("repairs", [...repairs, { serviceId, priceType: "fixed" as const, showPrice: true, ...patch }]);
     f.set("repairs", repairs.map((r) => (r.serviceId === serviceId ? { ...r, ...patch } : r)));
   };
-  if (!services.length) return <p className="text-sm text-muted">Create services first, then set prices per model here.</p>;
+  if (!services.length) return <p className="text-sm text-ink-soft">Create services first, then set prices per model here.</p>;
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[640px] text-sm">
         <thead>
-          <tr className="border-b border-border text-left text-muted">
+          <tr className="border-b border-line text-left text-ink-soft">
             <th className="py-2 pr-3 font-medium">Repair</th>
             <th className="py-2 pr-3 font-medium">Price for this model</th>
             <th className="py-2 pr-3 font-medium">Time</th>
-            <th className="py-2 font-medium">Show price</th>
+            <th className="py-2 font-medium">Price type</th>
           </tr>
         </thead>
         <tbody>
           {services.map((s) => {
             const r = byId.get(s._id);
             return (
-              <tr key={s._id} className="border-b border-border last:border-0">
+              <tr key={s._id} className="border-b border-line last:border-0">
                 <td className="py-2 pr-3">
                   <label className="flex min-h-11 items-center gap-3">
-                    <input type="checkbox" checked={Boolean(r)} onChange={(e) => update(s._id, e.target.checked ? {} : null)} className="size-4 accent-[var(--primary)]" />
+                    <input type="checkbox" checked={Boolean(r)} onChange={(e) => update(s._id, e.target.checked ? {} : null)} className="size-4 accent-primary" />
                     <span>
                       {s.title}
-                      <span className="block text-xs text-muted">Default: {priceLabel(s, currency) ?? "quote"}</span>
+                      <span className="block text-xs text-ink-soft">Default: {priceLabel(s, currency) ?? "hidden"}</span>
                     </span>
                   </label>
                 </td>
@@ -66,7 +66,18 @@ function RepairMatrix({ services, currency }: { services: ServiceT[]; currency: 
                   <input disabled={!r} aria-label={`${s.title} time`} placeholder={s.duration ?? "—"} value={r?.duration ?? ""} onChange={(e) => update(s._id, { duration: e.target.value })} className={`${inputClass} mt-0 w-36`} />
                 </td>
                 <td className="py-2">
-                  {r && <Switch id={`show-${s._id}`} label={<span className="sr-only">Show price</span>} checked={r.showPrice} onChange={(v) => update(s._id, { showPrice: v })} />}
+                  {r && (
+                    <select
+                      aria-label={`${s.title} price type`}
+                      value={repairPriceType(r)}
+                      onChange={(e) => update(s._id, { priceType: e.target.value as "fixed" | "from" | "hidden", showPrice: e.target.value !== "hidden" })}
+                      className={`${inputClass} mt-0 w-32`}
+                    >
+                      <option value="fixed">Fixed</option>
+                      <option value="from">From</option>
+                      <option value="hidden">Hidden</option>
+                    </select>
+                  )}
                 </td>
               </tr>
             );

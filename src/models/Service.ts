@@ -7,6 +7,7 @@ const serviceSchema = new Schema(
     slug: { type: String, required: true, unique: true, lowercase: true },
     categoryId: { type: Schema.Types.ObjectId, ref: "ServiceCategory" },
     shortDesc: String,
+    verbPhrase: String, // "replace cracked screens": completes "We … at your home or office."
     body: { json: Schema.Types.Mixed, html: String }, // Tiptap JSON + rendered HTML
     icon: String,
     images: [imageSchema],

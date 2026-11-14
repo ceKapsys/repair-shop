@@ -13,8 +13,10 @@ export async function buildMetadata(seo: Seo | undefined | null, fb: Fallback): 
   const description = seo?.metaDescription || fb.description || s.seoDefaults.description;
   const image = seo?.ogImage || fb.image || s.seoDefaults.ogImage;
   const keywords = [seo?.focusKeyword, ...(seo?.keywords ?? [])].filter(Boolean) as string[];
+  // A custom meta title that already names the shop is used as it is, so the template doesn't repeat it.
+  const named = Boolean(seo?.metaTitle && seo.metaTitle.toLowerCase().includes(s.shopName.toLowerCase()));
   return {
-    title,
+    title: named ? { absolute: title } : title,
     description,
     keywords: keywords.length ? keywords : undefined,
     alternates: { canonical: seo?.canonical || fb.path },
@@ -31,8 +33,11 @@ export async function buildMetadata(seo: Seo | undefined | null, fb: Fallback): 
   };
 }
 
-/** Metadata for a fixed page, using its admin-edited Page document when present. */
+/**
+ * Metadata for a fixed page. The title and description come from the copy deck; the page's
+ * admin-edited SEO fields (admin › SEO) override them.
+ */
 export async function pageMetadata(key: string, fb: Fallback): Promise<Metadata> {
   const page = await getPage(key);
-  return buildMetadata(page?.seo, { ...fb, title: page?.title || fb.title, description: fb.description || page?.intro });
+  return buildMetadata(page?.seo, fb);
 }
