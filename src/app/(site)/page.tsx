@@ -39,9 +39,9 @@ export default async function HomePage() {
     getGallery(),
   ]);
 
-  const phone = s.contacts.phones[0] || "(305) 911-7372";
-  const whatsappNumber = s.contacts.whatsapp || "13059117372";
-  const city = s.contacts.city || "Miami & South Florida";
+  const phone = s.contacts.phones[0] || "(954) 955-7572";
+  const whatsappNumber = s.contacts.whatsapp || "19549557572";
+  const city = s.contacts.city || "Lauderhill & South Florida";
   const emergencyFee = s.emergency.fee
     ? `${s.currency === "USD" || !s.currency ? "$" : s.currency}${s.emergency.fee}`
     : "$35";

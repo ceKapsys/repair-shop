@@ -7,7 +7,7 @@ interface AreasServedProps {
   phone?: string;
 }
 
-export function AreasServed({ serviceAreas, phone = "(305) 911-7372" }: AreasServedProps) {
+export function AreasServed({ serviceAreas, phone = "(954) 955-7572" }: AreasServedProps) {
   // Identify the center hub (e.g. Margate)
   const centerHub = serviceAreas.find(
     (a) => a.name.toLowerCase().includes("center hub") || a.slug === "margate"

@@ -10,7 +10,7 @@ interface HeroVisualProps {
 export function HeroVisual({
   ticketNo = "RS-2611-0042",
   deviceTitle = "iPhone 15 Pro · Screen replacement",
-  location = "801 Brickell Ave, Miami, FL",
+  location = "4045 NW 16th St, Lauderhill, FL",
   imageUrl,
 }: HeroVisualProps) {
   return (

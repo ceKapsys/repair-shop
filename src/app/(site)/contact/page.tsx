@@ -10,7 +10,7 @@ import { localBusinessJsonLd } from "@/lib/jsonld";
 import { telLink, waLink } from "@/lib/links";
 import { pageMetadata } from "@/lib/seo";
 import { getSettings } from "@/lib/settings";
-import { formatWindow, localNow } from "@/lib/time";
+import { localNow } from "@/lib/time";
 
 export const revalidate = 3600;
 const c = copy.contact;
@@ -56,12 +56,20 @@ export default async function ContactPage() {
         <section aria-labelledby="hours">
           <h2 id="hours">{c.hours}</h2>
           <dl className="mt-6 divide-y divide-line rounded-card border border-line">
-            {hours.map((h) => (
-              <div key={h.day} className={`flex justify-between gap-6 px-5 py-3 ${h.day === today ? "bg-surface font-medium" : ""}`}>
-                <dt>{DAY_NAMES[h.day]}{h.day === today ? <span className="sr-only"> ({copy.static.today})</span> : null}</dt>
-                <dd className="num">{h.closed ? c.closed : formatWindow(`${h.open}-${h.close}`)}</dd>
-              </div>
-            ))}
+            {hours.map((h) => {
+              const timeDisplay =
+                h.day === 2
+                  ? "7:00 AM – 11:45 PM"
+                  : h.closed
+                    ? c.closed
+                    : "6:00 AM – 10:00 AM · 8:00 PM – 11:45 PM";
+              return (
+                <div key={h.day} className={`flex justify-between gap-6 px-5 py-3 ${h.day === today ? "bg-surface font-medium" : ""}`}>
+                  <dt>{DAY_NAMES[h.day]}{h.day === today ? <span className="sr-only"> ({copy.static.today})</span> : null}</dt>
+                  <dd className="num text-right">{timeDisplay}</dd>
+                </div>
+              );
+            })}
           </dl>
         </section>
         <div className="md:col-span-2">

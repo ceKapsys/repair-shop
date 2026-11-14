@@ -1,7 +1,6 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { connectDb, isDbConfigured } from "./db";
-import { DEFAULT_WINDOWS } from "./site";
 import { TAGS } from "./tags";
 import { Settings } from "@/models/Settings";
 
@@ -84,13 +83,21 @@ export const defaultSettings = (): SiteSettings => ({
   ],
   branding: {},
   contacts: {
-    phones: ["(305) 911-7372"],
-    whatsapp: "13059117372",
+    phones: ["(954) 955-7572"],
+    whatsapp: "19549557572",
     email: "support@911mobilerepair.com",
-    address: "Margate, FL (Center Hub) & South Florida",
-    city: "Margate, Broward & South Florida",
+    address: "4045 NW 16th St, Lauderhill, FL 33313",
+    city: "Lauderhill & South Florida",
   },
-  hours: [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, open: "08:00", close: "21:00", closed: false })),
+  hours: [
+    { day: 0, open: "06:00", close: "23:45", closed: false },
+    { day: 1, open: "06:00", close: "23:45", closed: false },
+    { day: 2, open: "07:00", close: "23:45", closed: false },
+    { day: 3, open: "06:00", close: "23:45", closed: false },
+    { day: 4, open: "06:00", close: "23:45", closed: false },
+    { day: 5, open: "06:00", close: "23:45", closed: false },
+    { day: 6, open: "06:00", close: "23:45", closed: false },
+  ],
   serviceAreas: [
     { name: "Margate, Florida (Center Hub)", slug: "margate", note: "Center Hub · 15–25 min dispatch" },
     { name: "Pompano Beach", slug: "pompano-beach", note: "20–30 min dispatch" },
@@ -111,16 +118,30 @@ export const defaultSettings = (): SiteSettings => ({
     { name: "West Palm Beach", slug: "west-palm-beach", note: "Doorstep mobile dispatch" },
     { name: "Miami", slug: "miami", note: "Doorstep mobile dispatch" },
   ],
-  bookingSlots: { windows: DEFAULT_WINDOWS, leadTimeHours: 2, maxPerSlot: 4, daysAhead: 14, closedDays: [] },
+  bookingSlots: {
+    windows: ["06:00-08:00", "08:00-10:00", "20:00-22:00", "22:00-23:45"],
+    leadTimeHours: 2,
+    maxPerSlot: 4,
+    daysAhead: 14,
+    closedDays: [],
+  },
   emergency: {
     enabled: true,
     fee: 35,
     responseMinutes: 30,
     title: "Can't wait until tomorrow?",
     body: "Emergency repairs today: a certified technician calls you within 30 minutes of booking.",
-    hoursText: "8 AM–11 PM EST",
-    statusText: "Emergency service open today until 11:00 PM EST",
-    schedule: [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, enabled: true, open: "08:00", close: "23:00", responseMinutes: 30 })),
+    hoursText: "Tue: 7 AM–11:45 PM · Wed–Mon: 6–10 AM & 8–11:45 PM",
+    statusText: "Emergency service open today until 11:45 PM EST",
+    schedule: [
+      { day: 0, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 1, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 2, enabled: true, open: "07:00", close: "23:45", responseMinutes: 30 },
+      { day: 3, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 4, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 5, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+      { day: 6, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
+    ],
   },
   alertEmails: process.env.ALERT_EMAIL ? [process.env.ALERT_EMAIL] : [],
   notifications: { customerConfirmation: true, statusUpdates: true },

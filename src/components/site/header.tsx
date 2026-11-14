@@ -16,7 +16,7 @@ const links = [
 
 export function SiteHeader({ s }: { s: SiteSettings }) {
   const { logo, logoDark } = s.branding;
-  const phone = s.contacts.phones[0] || "(305) 911-7372";
+  const phone = s.contacts.phones[0] || "(954) 955-7572";
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur-sm">

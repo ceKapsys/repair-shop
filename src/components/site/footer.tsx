@@ -11,7 +11,7 @@ const cols = [
 ] as const;
 
 export function SiteFooter({ s }: { s: SiteSettings }) {
-  const city = s.contacts.city || "Miami & South Florida";
+  const city = s.contacts.city || "Lauderhill & South Florida";
 
   return (
     <footer className="bg-night text-mist">
