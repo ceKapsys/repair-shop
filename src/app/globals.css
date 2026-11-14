@@ -23,6 +23,7 @@
   --color-emergency: #b42318;
   --color-success: #15803d;
   --color-warning: #b45309;
+  --color-star: #f5b400;
   --color-on-primary: #ffffff;
   --color-scrim: rgb(20 24 36 / 0.5);
 
@@ -70,6 +71,7 @@
   --color-emergency: #f87171;
   --color-success: #4ade80;
   --color-warning: #fbbf24;
+  --color-star: #f5b400;
   --color-on-primary: #ffffff;
   color-scheme: dark;
 }
@@ -90,6 +92,7 @@
     --color-emergency: #f87171;
     --color-success: #4ade80;
     --color-warning: #fbbf24;
+    --color-star: #f5b400;
     --color-on-primary: #ffffff;
     color-scheme: dark;
   }
@@ -406,8 +409,29 @@ dialog[open]::backdrop {
 
 .stars {
   display: inline-flex;
-  gap: 1px;
-  color: var(--color-warning);
+  gap: 2px;
+  color: var(--color-star);
+}
+
+.stars svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+.google-blue {
+  fill: #4285f4;
+}
+
+.google-green {
+  fill: #34a853;
+}
+
+.google-yellow {
+  fill: #fbbc05;
+}
+
+.google-red {
+  fill: #ea4335;
 }
 
 .dot {
