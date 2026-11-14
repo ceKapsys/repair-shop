@@ -434,6 +434,20 @@ dialog[open]::backdrop {
   fill: #ea4335;
 }
 
+.frosted-glass {
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--color-line) 80%, transparent);
+  box-shadow: 0 20px 45px -10px rgb(0 0 0 / 0.18), inset 0 1px 1px 0 rgb(255 255 255 / 0.4);
+}
+
+.dark .frosted-glass {
+  background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-line) 60%, transparent);
+  box-shadow: 0 20px 45px -10px rgb(0 0 0 / 0.5), inset 0 1px 1px 0 rgb(255 255 255 / 0.08);
+}
+
 .dot {
   width: 8px;
   height: 8px;

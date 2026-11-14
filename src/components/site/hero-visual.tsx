@@ -41,14 +41,14 @@ export function HeroVisual({
         )}
       </div>
 
-      {/* Floating live repair ticket (solid background, no image bleed/overwrite) */}
+      {/* Floating live repair ticket (frosted glass) */}
       <article
-        className="absolute bottom-0 left-0 z-10 w-[92%] max-w-[340px] rounded-[var(--radius-card)] border border-line bg-bg p-5 shadow-2xl"
+        className="frosted-glass absolute bottom-0 left-0 z-10 w-[92%] max-w-[340px] rounded-[var(--radius-card)] p-5 transition-all"
         aria-label="Example booking ticket"
       >
         <div className="flex items-center justify-between text-xs text-ink-soft">
-          <span className="font-mono text-sm font-semibold text-ink">{ticketNo}</span>
-          <span className="rounded-full bg-mist/40 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-steel">
+          <span className="font-mono text-sm font-bold text-ink">{ticketNo}</span>
+          <span className="rounded-full bg-mist/50 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-steel">
             Example
           </span>
         </div>
@@ -56,31 +56,31 @@ export function HeroVisual({
         <h3 className="mt-2.5 font-heading text-[17px] font-bold leading-snug text-ink">
           {deviceTitle}
         </h3>
-        <p className="mt-0.5 text-sm text-ink-soft">{location}</p>
+        <p className="mt-0.5 text-sm font-medium text-ink-soft">{location}</p>
 
         {/* 4-Step Tracking Timeline */}
         <ol className="mt-4 grid gap-2.5 border-t border-dashed border-line pt-3.5 text-sm">
           {/* Step 1: Done */}
-          <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 text-ink-soft">
-            <span className="flex size-[18px] items-center justify-center rounded-full bg-success text-on-primary">
+          <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 text-ink">
+            <span className="flex size-[18px] items-center justify-center rounded-full bg-success text-on-primary shadow-xs">
               <Check size={11} strokeWidth={3} />
             </span>
-            <span className="text-xs sm:text-sm">Booked online</span>
-            <time className="font-mono text-xs">1:52 PM</time>
+            <span className="text-xs sm:text-sm font-medium">Booked online</span>
+            <time className="font-mono text-xs text-ink-soft">1:52 PM</time>
           </li>
 
           {/* Step 2: Done */}
-          <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 text-ink-soft">
-            <span className="flex size-[18px] items-center justify-center rounded-full bg-success text-on-primary">
+          <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 text-ink">
+            <span className="flex size-[18px] items-center justify-center rounded-full bg-success text-on-primary shadow-xs">
               <Check size={11} strokeWidth={3} />
             </span>
-            <span className="text-xs sm:text-sm">Technician confirmed</span>
-            <time className="font-mono text-xs">1:58 PM</time>
+            <span className="text-xs sm:text-sm font-medium">Technician confirmed</span>
+            <time className="font-mono text-xs text-ink-soft">1:58 PM</time>
           </li>
 
           {/* Step 3: Active Now */}
-          <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 font-medium text-ink">
-            <span className="flex size-[18px] items-center justify-center rounded-full border-[1.5px] border-primary">
+          <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 font-semibold text-ink">
+            <span className="flex size-[18px] items-center justify-center rounded-full border-[1.5px] border-primary bg-bg/80">
               <span className="size-2 rounded-full bg-primary animate-pulse" />
             </span>
             <span className="text-xs sm:text-sm">On the way, arriving 2:30–3:00</span>
@@ -88,10 +88,10 @@ export function HeroVisual({
           </li>
 
           {/* Step 4: Pending */}
-          <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 text-ink-soft/70">
-            <span className="flex size-[18px] items-center justify-center rounded-full border-[1.5px] border-line" />
-            <span className="text-xs sm:text-sm">Fixed and tested</span>
-            <time className="font-mono text-xs">~45 min</time>
+          <li className="grid grid-cols-[18px_1fr_auto] items-center gap-2.5 text-ink-soft">
+            <span className="flex size-[18px] items-center justify-center rounded-full border-[1.5px] border-line-strong bg-bg/50" />
+            <span className="text-xs sm:text-sm font-medium">Fixed and tested</span>
+            <time className="font-mono text-xs text-ink-soft">~45 min</time>
           </li>
         </ol>
       </article>
