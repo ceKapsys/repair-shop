@@ -49,7 +49,7 @@ export function SortableList<T extends Item>({
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
       <SortableContext items={items.map((i) => i._id)} strategy={verticalListSortingStrategy}>
-        <ul className="divide-y divide-border overflow-hidden rounded-[var(--radius-card)] border border-border bg-background">
+        <ul className="divide-y divide-line overflow-hidden rounded-card border border-line bg-bg">
           {items.map((item) => (
             <Row key={item._id} id={item._id}>{render(item)}</Row>
           ))}
@@ -65,9 +65,9 @@ function Row({ id, children }: { id: string; children: React.ReactNode }) {
     <li
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
-      className={`flex items-center gap-2 bg-background pr-3 ${isDragging ? "relative z-10 shadow-3" : ""}`}
+      className={`flex items-center gap-2 bg-bg pr-3 ${isDragging ? "relative z-10 shadow-card" : ""}`}
     >
-      <button type="button" {...attributes} {...listeners} aria-label="Drag to reorder" className="flex h-14 w-10 shrink-0 cursor-grab touch-none items-center justify-center text-muted active:cursor-grabbing">
+      <button type="button" {...attributes} {...listeners} aria-label="Drag to reorder" className="flex h-14 w-10 shrink-0 cursor-grab touch-none items-center justify-center text-ink-soft active:cursor-grabbing">
         <GripVertical size={18} strokeWidth={1.5} />
       </button>
       <div className="min-w-0 flex-1">{children}</div>

@@ -12,7 +12,7 @@ export function ToggleCell({ kind, id, field, value, label }: { kind: Kind; id: 
   return (
     <Switch
       id={`${field}-${id}`}
-      label={<span className="sr-only sm:not-sr-only sm:text-xs sm:font-normal sm:text-muted">{label}</span>}
+      label={<span className="sr-only sm:not-sr-only sm:text-xs sm:font-normal sm:text-ink-soft">{label}</span>}
       checked={optimistic}
       onChange={(v) =>
         start(async () => {

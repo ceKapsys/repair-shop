@@ -181,7 +181,7 @@ function useBind(name: string) {
 }
 
 function Counter({ len, min, max }: { len: number; min?: number; max: number }) {
-  const tone = len > max ? "text-emergency" : min && len >= min ? "text-success" : "text-muted";
+  const tone = len > max ? "text-emergency" : min && len >= min ? "text-success" : "text-ink-soft";
   return <span className={`text-xs tabular-nums ${tone}`}>{len}/{max}</span>;
 }
 
@@ -245,7 +245,7 @@ export function NumberInput({ name, label, hint, className, step = "any", prefix
   return (
     <Field id={id} label={label} hint={hint} error={error} className={className}>
       <div className="relative">
-        {prefix && <span className="pointer-events-none absolute top-1/2 left-3 mt-0.75 -translate-y-1/2 text-sm text-muted">{prefix}</span>}
+        {prefix && <span className="pointer-events-none absolute top-1/2 left-3 mt-0.75 -translate-y-1/2 text-sm text-ink-soft">{prefix}</span>}
         <input
           {...a11y}
           type="number"
@@ -306,8 +306,8 @@ export function SlugInput({ name = "slug", source, prefix, hint }: { name?: stri
   }, [src]);
   return (
     <Field id={id} label="URL slug" error={error} hint={hint ?? (f.isNew ? undefined : "Changing the slug of a live page adds a 301 redirect from the old URL.")}>
-      <div className="mt-1.5 flex items-stretch overflow-hidden rounded-[var(--radius-input)] border border-border">
-        <span className="hidden items-center bg-surface px-3 text-sm text-muted sm:flex">{prefix}</span>
+      <div className="mt-1.5 flex items-stretch overflow-hidden rounded-input border border-line">
+        <span className="hidden items-center bg-surface px-3 text-sm text-ink-soft sm:flex">{prefix}</span>
         <input
           {...a11y}
           value={(f.get(name) ?? "") as string}
@@ -315,7 +315,7 @@ export function SlugInput({ name = "slug", source, prefix, hint }: { name?: stri
             manual.current = true;
             f.set(name, slugify(e.target.value) + (e.target.value.endsWith("-") ? "-" : ""));
           }}
-          className="h-11 min-w-0 flex-1 bg-background px-3 text-base outline-offset-[-2px]"
+          className="h-11 min-w-0 flex-1 bg-bg px-3 text-base outline-offset-[-2px]"
         />
       </div>
     </Field>
@@ -333,11 +333,11 @@ export function ChipsInput({ name, label, hint, placeholder }: { name: string; l
   };
   return (
     <Field id={id} label={label} hint={hint ?? "Press Enter or comma to add"} error={error}>
-      <div className="mt-1.5 flex min-h-11 flex-wrap items-center gap-1.5 rounded-[var(--radius-input)] border border-border bg-background px-2 py-1.5">
+      <div className="mt-1.5 flex min-h-11 flex-wrap items-center gap-1.5 rounded-input border border-line bg-bg px-2 py-1.5">
         {chips.map((c) => (
           <span key={c} className="inline-flex items-center gap-1 rounded-full bg-surface py-0.5 pr-1 pl-2.5 text-sm">
             {c}
-            <button type="button" aria-label={`Remove ${c}`} onClick={() => f.set(name, chips.filter((x) => x !== c))} className="flex size-6 items-center justify-center rounded-full text-muted hover:bg-border">×</button>
+            <button type="button" aria-label={`Remove ${c}`} onClick={() => f.set(name, chips.filter((x) => x !== c))} className="flex size-6 items-center justify-center rounded-full text-ink-soft hover:bg-line">×</button>
           </span>
         ))}
         <input
@@ -373,14 +373,14 @@ export function MultiCheck({ name, label, options, hint }: { name: string; label
     f.set(name, Array.from(next));
   };
   return (
-    <Field id={id} label={<>{label} <span className="font-normal text-muted">({selected.size} selected)</span></>} hint={hint}>
+    <Field id={id} label={<>{label} <span className="font-normal text-ink-soft">({selected.size} selected)</span></>} hint={hint}>
       <input id={id} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search…" className={inputClass} />
-      <div className="mt-2 max-h-64 overflow-y-auto rounded-[var(--radius-input)] border border-border">
-        {shown.length === 0 && <p className="p-3 text-sm text-muted">Nothing found.</p>}
+      <div className="mt-2 max-h-64 overflow-y-auto rounded-input border border-line">
+        {shown.length === 0 && <p className="p-3 text-sm text-ink-soft">Nothing found.</p>}
         {shown.map((o) => (
-          <label key={o.value} className="flex min-h-11 cursor-pointer items-center gap-3 border-b border-border px-3 last:border-0 hover:bg-surface">
-            <input type="checkbox" checked={selected.has(o.value)} onChange={() => toggle(o.value)} className="size-4 accent-[var(--primary)]" />
-            <span className="text-sm">{o.group && <span className="text-muted">{o.group} · </span>}{o.label}</span>
+          <label key={o.value} className="flex min-h-11 cursor-pointer items-center gap-3 border-b border-line px-3 last:border-0 hover:bg-surface">
+            <input type="checkbox" checked={selected.has(o.value)} onChange={() => toggle(o.value)} className="size-4 accent-primary" />
+            <span className="text-sm">{o.group && <span className="text-ink-soft">{o.group} · </span>}{o.label}</span>
           </label>
         ))}
       </div>
@@ -394,10 +394,10 @@ export function FaqList({ name, label = "FAQs" }: { name: string; label?: string
   return (
     <fieldset>
       <legend className="text-sm font-medium">{label}</legend>
-      <p className="text-sm text-muted">Use real customer questions. Shown on the page and marked up for Google.</p>
+      <p className="text-sm text-ink-soft">Use real customer questions. Shown on the page and marked up for Google.</p>
       <div className="mt-3 space-y-4">
         {items.map((_, i) => (
-          <div key={i} className="rounded-[var(--radius-input)] border border-border p-4">
+          <div key={i} className="rounded-input border border-line p-4">
             <TextInput name={`${name}.${i}.question`} label={`Question ${i + 1}`} />
             <TextArea name={`${name}.${i}.answer`} label="Answer" className="mt-3" />
             <button type="button" className="mt-2 min-h-11 text-sm text-emergency" onClick={() => f.set(name, items.filter((__, j) => j !== i))}>

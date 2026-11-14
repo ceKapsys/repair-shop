@@ -41,7 +41,7 @@ export function DeleteButton({ kind, id, label, redirectTo, compact }: { kind: K
         onClick={() => setOpen(true)}
         disabled={pending}
         aria-label={`Delete ${label}`}
-        className={compact ? "flex size-11 items-center justify-center rounded-lg text-muted hover:bg-emergency/10 hover:text-emergency" : "inline-flex min-h-11 items-center gap-2 rounded-lg px-3 text-sm text-emergency hover:bg-emergency/10"}
+        className={compact ? "flex size-11 items-center justify-center rounded-lg text-ink-soft hover:bg-emergency/10 hover:text-emergency" : "inline-flex min-h-11 items-center gap-2 rounded-lg px-3 text-sm text-emergency hover:bg-emergency/10"}
       >
         <Trash2 size={18} strokeWidth={1.5} />
         {!compact && "Delete"}

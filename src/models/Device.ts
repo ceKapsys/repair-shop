@@ -4,6 +4,7 @@ import { defineModel, seoSchema } from "./_shared";
 const repairSchema = new Schema(
   {
     serviceId: { type: Schema.Types.ObjectId, ref: "Service", required: true },
+    priceType: { type: String, enum: ["fixed", "from", "hidden"] },
     price: Number,
     showPrice: { type: Boolean, default: true },
     duration: String,

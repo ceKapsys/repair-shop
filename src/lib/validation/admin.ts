@@ -8,10 +8,11 @@ export const serviceInput = z
     slug,
     categoryId: objectId.optional().or(z.literal("")).transform((v) => v || undefined),
     shortDesc: optText(300),
+    verbPhrase: optText(120),
     body: richText,
     icon: optText(40),
     images: z.array(image).max(12).default([]),
-    priceType: z.enum(["fixed", "from", "range", "quote"]),
+    priceType: z.enum(["fixed", "from", "hidden", "range", "quote"]).transform((t) => (t === "quote" ? "hidden" : t === "range" ? "from" : t)),
     priceMin: optNumber,
     priceMax: optNumber,
     showPrice: z.boolean().default(true),
@@ -25,10 +26,8 @@ export const serviceInput = z
     seo: seoInput,
   })
   .superRefine((v, ctx) => {
-    if (v.priceType !== "quote" && v.priceMin == null)
-      ctx.addIssue({ code: "custom", path: ["priceMin"], message: "Enter a price, or choose “Quote only”" });
-    if (v.priceType === "range" && (v.priceMax == null || v.priceMax < (v.priceMin ?? 0)))
-      ctx.addIssue({ code: "custom", path: ["priceMax"], message: "Max must be at least the min price" });
+    if (v.priceType !== "hidden" && v.priceMin == null)
+      ctx.addIssue({ code: "custom", path: ["priceMin"], message: "Enter a price, or choose “Hidden”" });
   });
 
 export const categoryInput = z.object({
@@ -54,7 +53,7 @@ export const deviceInput = z.object({
   releaseYear: z.preprocess((v) => (v === "" || v == null ? undefined : Number(v)), z.number().int().min(1990).max(2100).optional()),
   specs: z.record(z.string(), z.string().max(200)).default({}),
   repairs: z
-    .array(z.object({ serviceId: objectId, price: optNumber, showPrice: z.boolean().default(true), duration: optText(60) }))
+    .array(z.object({ serviceId: objectId, priceType: z.enum(["fixed", "from", "hidden"]).optional(), price: optNumber, showPrice: z.boolean().default(true), duration: optText(60) }))
     .default([]),
   isActive: z.boolean().default(true),
   seo: seoInput,
@@ -130,17 +129,22 @@ export const settingsInput = z.object({
   tagline: optText(120),
   timezone: z.string().trim().min(1).max(60),
   currency: z.string().trim().length(3, "3-letter code, e.g. USD").toUpperCase(),
-  hero: z.object({ title: z.string().trim().min(1, "Hero title is required").max(120), subtitle: optText(300), image: optUrl }),
+  hero: z.object({
+    eyebrow: optText(60),
+    title: optText(80),
+    sub: optText(300),
+    image: optUrl,
+    trustItems: z.array(z.object({ icon: z.string().trim().max(40), text: z.string().trim().max(120) })).optional(),
+  }),
+  howItWorks: z.array(z.object({ step: z.string().trim().max(20), title: z.string().trim().max(80), text: z.string().trim().max(300) })).optional(),
   branding: z.object({
     logo: optUrl,
     logoDark: optUrl,
     favicon: optUrl,
-    primaryColor: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Use a hex colour like #0F766E"),
   }),
   contacts: z.object({
     phones: z.array(z.string().trim().regex(/^\+?[\d\s()-]{6,20}$/, "Enter a valid phone number")).min(1, "Add at least one phone"),
     whatsapp: z.string().trim().regex(/^\+?\d{6,15}$/, "Digits only, with country code"),
-    whatsappMessage: optText(300),
     email: z.email("Enter a valid email"),
     address: optText(300),
     city: optText(80),
@@ -158,6 +162,11 @@ export const settingsInput = z.object({
   emergency: z.object({
     enabled: z.boolean(),
     fee: z.coerce.number().min(0),
+    responseMinutes: z.coerce.number().int().min(1).max(1440).optional(),
+    title: optText(120),
+    body: optText(300),
+    hoursText: optText(80),
+    statusText: optText(120),
     schedule: z
       .array(z.object({ day: z.number().min(0).max(6), enabled: z.boolean(), open: hhmm, close: hhmm, responseMinutes: z.coerce.number().int().min(1).max(1440) }))
       .length(7),

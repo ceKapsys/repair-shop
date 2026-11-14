@@ -30,14 +30,14 @@ function Uploader({ folder, onDone, multiple, label = "Upload" }: { folder: stri
       onDragOver={(e) => { e.preventDefault(); setDrag(true); }}
       onDragLeave={() => setDrag(false)}
       onDrop={(e) => { e.preventDefault(); setDrag(false); void handle(e.dataTransfer.files); }}
-      className={`flex min-h-24 flex-col items-center justify-center gap-2 rounded-[var(--radius-input)] border-2 border-dashed p-4 text-center text-sm ${drag ? "border-primary bg-primary/5" : "border-border"}`}
+      className={`flex min-h-24 flex-col items-center justify-center gap-2 rounded-input border-2 border-dashed p-4 text-center text-sm ${drag ? "border-primary bg-primary/5" : "border-line"}`}
     >
       <input ref={ref} type="file" accept="image/*" multiple={multiple} className="sr-only" onChange={(e) => handle(e.target.files)} tabIndex={-1} />
       <button type="button" onClick={() => ref.current?.click()} disabled={busy} className="inline-flex min-h-11 items-center gap-2 rounded-lg px-3 font-medium text-primary hover:bg-primary/5">
         {busy ? <Loader2 size={18} className="animate-spin" /> : <ImagePlus size={18} strokeWidth={1.5} />}
         {busy ? "Uploading…" : label}
       </button>
-      <span className="text-muted">or drag {multiple ? "images" : "an image"} here</span>
+      <span className="text-ink-soft">or drag {multiple ? "images" : "an image"} here</span>
     </div>
   );
 }
@@ -51,7 +51,7 @@ export function ImageUrlInput({ name, label, folder, hint }: { name: string; lab
     <Field id={id} label={label} hint={hint} error={f.errors[name]}>
       <div className="mt-1.5 flex gap-3">
         {url && (
-          <div className="relative size-24 shrink-0 overflow-hidden rounded-lg border border-border bg-surface">
+          <div className="relative size-24 shrink-0 overflow-hidden rounded-lg border border-line bg-surface">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={url} alt="" className="size-full object-contain" />
           </div>
@@ -61,7 +61,7 @@ export function ImageUrlInput({ name, label, folder, hint }: { name: string; lab
           <div className="flex gap-2">
             <input id={id} value={url} onChange={(e) => f.set(name, e.target.value)} placeholder="…or paste an image URL" className={`${inputClass} mt-0`} />
             {url && (
-              <button type="button" aria-label="Remove image" onClick={() => f.set(name, "")} className="flex size-11 shrink-0 items-center justify-center rounded-lg text-muted hover:bg-surface">
+              <button type="button" aria-label="Remove image" onClick={() => f.set(name, "")} className="flex size-11 shrink-0 items-center justify-center rounded-lg text-ink-soft hover:bg-surface">
                 <Trash2 size={18} strokeWidth={1.5} />
               </button>
             )}
@@ -83,7 +83,7 @@ export function ImageListInput({ name, label, folder, max = 12, single }: { name
       <legend className="text-sm font-medium">{label}</legend>
       <div className="mt-2 space-y-3">
         {items.map((img, i) => (
-          <div key={img.url + i} className="flex gap-3 rounded-[var(--radius-input)] border border-border p-3">
+          <div key={img.url + i} className="flex gap-3 rounded-input border border-line p-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={img.url} alt="" className="size-20 shrink-0 rounded-lg bg-surface object-cover" />
             <div className="min-w-0 flex-1">
@@ -99,7 +99,7 @@ export function ImageListInput({ name, label, folder, max = 12, single }: { name
               />
               {f.errors[`${name}${single ? "" : `.${i}`}.alt`] && <p className="mt-1 text-sm text-emergency">{f.errors[`${name}${single ? "" : `.${i}`}.alt`]}</p>}
             </div>
-            <button type="button" aria-label="Remove image" onClick={() => write(items.filter((_, j) => j !== i))} className="flex size-11 shrink-0 items-center justify-center rounded-lg text-muted hover:bg-surface">
+            <button type="button" aria-label="Remove image" onClick={() => write(items.filter((_, j) => j !== i))} className="flex size-11 shrink-0 items-center justify-center rounded-lg text-ink-soft hover:bg-surface">
               <Trash2 size={18} strokeWidth={1.5} />
             </button>
           </div>
@@ -120,7 +120,7 @@ function UrlAdder({ onAdd }: { onAdd: (url: string) => void }) {
   return (
     <div className="flex gap-2">
       <input value={v} onChange={(e) => setV(e.target.value)} placeholder="…or paste an image URL" aria-label="Image URL" className={`${inputClass} mt-0`} />
-      <button type="button" disabled={!/^https?:\/\//.test(v)} onClick={() => { onAdd(v); setV(""); }} className="min-h-11 shrink-0 rounded-lg border border-border px-4 text-sm font-medium disabled:opacity-40">Add</button>
+      <button type="button" disabled={!/^https?:\/\//.test(v)} onClick={() => { onAdd(v); setV(""); }} className="min-h-11 shrink-0 rounded-lg border border-line px-4 text-sm font-medium disabled:opacity-40">Add</button>
     </div>
   );
 }

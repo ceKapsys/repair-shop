@@ -10,9 +10,9 @@ import { FormProvider, useForm } from "./form";
 type FormApi = ReturnType<typeof useForm>;
 
 function SaveState({ form }: { form: FormApi }) {
-  if (form.saving) return <span className="text-sm text-muted">Saving…</span>;
+  if (form.saving) return <span className="text-sm text-ink-soft">Saving…</span>;
   if (form.dirty) return <span className="text-sm text-warning">Unsaved changes</span>;
-  if (form.savedAt) return <span className="text-sm text-muted">Saved {form.savedAt.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</span>;
+  if (form.savedAt) return <span className="text-sm text-ink-soft">Saved {form.savedAt.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</span>;
   return null;
 }
 
@@ -28,14 +28,17 @@ export function EditorShell({
 }: {
   form: FormApi;
   title: string;
-  backHref: string;
+  backHref?: string;
   viewHref?: string;
-  tabs: { id: string; label: string; content: React.ReactNode }[];
+  tabs: { id: string; label: string; content: React.ReactNode; fields?: string[] }[];
   actions?: React.ReactNode;
   saveLabel?: string;
 }) {
   const [tab, setTab] = useState(tabs[0].id);
-  const tabErrors = (id: string) => (id === "seo" ? Object.keys(form.errors).some((k) => k.startsWith("seo.") && form.errors[k]) : false);
+  const tabErrors = (id: string) => {
+    const prefixes = tabs.find((t) => t.id === id)?.fields ?? (id === "seo" ? ["seo"] : []);
+    return Object.keys(form.errors).some((k) => form.errors[k] && prefixes.some((p) => k === p || k.startsWith(`${p}.`)));
+  };
   return (
     <FormProvider form={form}>
       <form
@@ -45,15 +48,17 @@ export function EditorShell({
         }}
         noValidate
       >
-        <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur">
+        <header className="sticky top-0 z-30 border-b border-line bg-bg ">
           <div className="flex flex-wrap items-center gap-3 px-4 py-3 md:px-8">
-            <Link href={backHref} aria-label="Back" className="flex size-11 items-center justify-center rounded-lg text-muted hover:bg-surface">
-              <ArrowLeft size={20} strokeWidth={1.5} />
-            </Link>
+            {backHref && (
+              <Link href={backHref} aria-label="Back" className="flex size-11 items-center justify-center rounded-lg text-ink-soft hover:bg-surface">
+                <ArrowLeft size={20} strokeWidth={1.5} />
+              </Link>
+            )}
             <h1 className="min-w-0 flex-1 truncate text-lg font-semibold">{title}</h1>
             <SaveState form={form} />
             {viewHref && !form.isNew && (
-              <a href={viewHref} target="_blank" rel="noopener" className="hidden min-h-11 items-center gap-1.5 rounded-lg px-3 text-sm text-muted hover:bg-surface sm:inline-flex">
+              <a href={viewHref} target="_blank" rel="noopener" className="hidden min-h-11 items-center gap-1.5 rounded-lg px-3 text-sm text-ink-soft hover:bg-surface sm:inline-flex">
                 View <ExternalLink size={16} strokeWidth={1.5} />
               </a>
             )}
@@ -72,7 +77,7 @@ export function EditorShell({
                   role="tab"
                   aria-selected={tab === t.id}
                   onClick={() => setTab(t.id)}
-                  className={cn("relative min-h-11 px-3 text-sm whitespace-nowrap text-muted", tab === t.id && "font-medium text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-primary")}
+                  className={cn("relative min-h-11 px-3 text-sm whitespace-nowrap text-ink-soft", tab === t.id && "font-medium text-ink after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-primary")}
                 >
                   {t.label}
                   {tabErrors(t.id) && <span className="ml-1.5 inline-block size-2 rounded-full bg-emergency" aria-label="has errors" />}
@@ -95,9 +100,9 @@ export function EditorShell({
 
 export function Section({ title, description, children, className }: { title?: string; description?: string; children: React.ReactNode; className?: string }) {
   return (
-    <section className={cn("rounded-[var(--radius-card)] border border-border bg-background p-5 md:p-6", className)}>
+    <section className={cn("rounded-card border border-line bg-bg p-5 md:p-6", className)}>
       {title && <h2 className="text-base font-semibold">{title}</h2>}
-      {description && <p className="mt-0.5 text-sm text-muted">{description}</p>}
+      {description && <p className="mt-0.5 text-sm text-ink-soft">{description}</p>}
       <div className={cn("space-y-5", title && "mt-5")}>{children}</div>
     </section>
   );
@@ -107,8 +112,8 @@ export function PageHeader({ title, description, actions }: { title: string; des
   return (
     <div className="flex flex-wrap items-end justify-between gap-4 px-4 pt-6 md:px-8 md:pt-8">
       <div>
-        <h1 className="text-2xl font-bold">{title}</h1>
-        {description && <p className="mt-1 text-sm text-muted">{description}</p>}
+        <h1 className="text-2xl font-semibold">{title}</h1>
+        {description && <p className="mt-1 text-sm text-ink-soft">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>

@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import { PageStub } from "@/components/ui/page-stub";
+import { BlogIndex } from "@/components/site/blog-index";
+import { copy } from "@/content/copy";
+import { getPostCategories, getPosts } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Blog" };
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("blog", { title: copy.blog.title, path: "/blog", description: copy.blog.intro });
+}
 
-export default function Page() {
-  return <PageStub title="Blog" week="week 6" intro="Repair tips and guides." />;
+export default async function BlogPage() {
+  const [posts, categories] = await Promise.all([getPosts(), getPostCategories()]);
+  return <BlogIndex posts={posts} categories={categories} title={copy.blog.title} intro={copy.blog.intro} crumbs={[{ label: copy.nav.blog, href: "/blog" }]} />;
 }

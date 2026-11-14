@@ -31,6 +31,9 @@ The public site builds and runs without a database — it falls back to the plac
 | `pnpm lint` / `pnpm typecheck` | ESLint / `tsc --noEmit` |
 | `pnpm seed` | Upsert settings and owner account |
 
+To run a production build next to `pnpm dev` without the two overwriting each other, build into
+another folder: `NEXT_DIST_DIR=.next-test pnpm build && NEXT_DIST_DIR=.next-test pnpm start -p 3100`.
+
 ## Layout
 
 ```

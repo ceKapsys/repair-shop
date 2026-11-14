@@ -1,6 +1,7 @@
 /** Plain (JSON-serialised) shapes passed from server to client components. */
 
-export type PriceType = "fixed" | "from" | "range" | "quote";
+/** `range` and `quote` are legacy values still readable from older documents. */
+export type PriceType = "fixed" | "from" | "hidden" | "range" | "quote";
 export type DeviceType = "phone" | "laptop" | "tablet" | "console" | "smartwatch" | "audio" | "other";
 export type BookingStatus = "new" | "confirmed" | "on-the-way" | "in-progress" | "done" | "cancelled";
 
@@ -40,6 +41,7 @@ export interface ServiceT {
   slug: string;
   categoryId?: string;
   shortDesc?: string;
+  verbPhrase?: string;
   body?: RichText;
   icon?: string;
   images: Img[];
@@ -82,6 +84,7 @@ export interface BrandT {
 
 export interface DeviceRepairT {
   serviceId: string;
+  priceType?: PriceType;
   price?: number;
   showPrice: boolean;
   duration?: string;

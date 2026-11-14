@@ -28,7 +28,7 @@ export function DeviceTree({ brands, devices }: { brands: BrandT[]; devices: Dev
       <SortableList
         items={brands}
         onReorder={(ids) => reorderDocs("brand", ids)}
-        empty={<p className="rounded-[var(--radius-card)] border border-dashed border-border p-10 text-center text-muted">No brands yet. Add Apple, Samsung, Dell…</p>}
+        empty={<p className="rounded-card border border-dashed border-line p-10 text-center text-ink-soft">No brands yet. Add Apple, Samsung, Dell…</p>}
         render={(b) => {
           const models = byBrand.get(b._id) ?? [];
           const isOpen = open.has(b._id);
@@ -40,25 +40,25 @@ export function DeviceTree({ brands, devices }: { brands: BrandT[]; devices: Dev
                   aria-expanded={isOpen}
                   aria-label={`${isOpen ? "Collapse" : "Expand"} ${b.name}`}
                   onClick={() => setOpen((s) => { const n = new Set(s); if (n.has(b._id)) n.delete(b._id); else n.add(b._id); return n; })}
-                  className="flex size-11 items-center justify-center rounded-lg text-muted hover:bg-surface"
+                  className="flex size-11 items-center justify-center rounded-lg text-ink-soft hover:bg-surface"
                 >
                   <ChevronRight size={18} className={cn("transition-transform duration-150", isOpen && "rotate-90")} />
                 </button>
                 <Link href={`/admin/devices/brand/${b._id}`} className="min-w-0 flex-1 font-medium hover:text-primary">
                   {b.name}
-                  <span className="block text-sm font-normal text-muted">{DEVICE_TYPE_LABELS[b.deviceType]} · {models.length} models</span>
+                  <span className="block text-sm font-normal text-ink-soft">{DEVICE_TYPE_LABELS[b.deviceType]} · {models.length} models</span>
                 </Link>
                 <Link href={`/admin/devices/model/new?brand=${b._id}`} className="hidden min-h-11 items-center gap-1 rounded-lg px-3 text-sm text-primary hover:bg-primary/5 sm:inline-flex"><Plus size={16} /> Model</Link>
-                <button type="button" onClick={() => setBulk(b)} className="min-h-11 rounded-lg px-3 text-sm text-muted hover:bg-surface">Bulk add</button>
+                <button type="button" onClick={() => setBulk(b)} className="min-h-11 rounded-lg px-3 text-sm text-ink-soft hover:bg-surface">Bulk add</button>
                 <DeleteButton kind="brand" id={b._id} label={b.name} compact />
               </div>
               {isOpen && (
-                <ul className="mb-3 ml-11 divide-y divide-border rounded-lg border border-border">
-                  {models.length === 0 && <li className="p-3 text-sm text-muted">No models yet.</li>}
+                <ul className="mb-3 ml-11 divide-y divide-line rounded-lg border border-line">
+                  {models.length === 0 && <li className="p-3 text-sm text-ink-soft">No models yet.</li>}
                   {models.map((d) => (
                     <li key={d._id} className="flex min-h-12 items-center gap-3 px-3">
                       <Link href={`/admin/devices/model/${d._id}`} className="min-w-0 flex-1 text-sm hover:text-primary">
-                        {d.model} <span className="text-muted">· {d.repairs?.length ?? 0} repairs</span>
+                        {d.model} <span className="text-ink-soft">· {d.repairs?.length ?? 0} repairs</span>
                       </Link>
                       <ToggleCell kind="device" id={d._id} field="isActive" value={d.isActive} label="Live" />
                       <DeleteButton kind="device" id={d._id} label={d.model} compact />

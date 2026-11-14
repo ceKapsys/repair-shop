@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
-import { PageStub } from "@/components/ui/page-stub";
+import { TextPage } from "@/components/site/text-page";
+import { copy, fill } from "@/content/copy";
+import { pageMetadata } from "@/lib/seo";
+import { getSettings } from "@/lib/settings";
 
-export const metadata: Metadata = { title: "Privacy policy" };
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getSettings();
+  return pageMetadata("privacy", { title: fill(copy.legal.privacy, { shop: s.shopName }), path: "/privacy" });
+}
 
-export default function Page() {
-  return <PageStub title="Privacy policy" week="week 5" intro="" />;
+export default async function Page() {
+  const s = await getSettings();
+  return <TextPage pageKey="privacy" title={fill(copy.legal.privacy, { shop: s.shopName })} path="/privacy" showUpdated />;
 }
