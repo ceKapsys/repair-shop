@@ -442,17 +442,25 @@ export default async function HomePage() {
       </section>
 
       {/* =========================================================================
-          COMMON REPAIRS - PRICE LIST ROWS (#repairs)
+          COMMON REPAIRS - 3-COLUMN CARD GRID (#repairs)
           ========================================================================= */}
       <section className="bg-surface py-20 md:py-24" id="repairs" aria-labelledby="repairs-h">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
-            <h2 id="repairs-h" className="font-heading text-3xl font-semibold tracking-tight text-ink md:text-4xl">
-              Common repairs
-            </h2>
+          <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="inline-flex items-center gap-2 rounded-full border border-line bg-bg px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+                Transparent pricing · OEM-grade parts
+              </p>
+              <h2 id="repairs-h" className="mt-3 font-heading text-3xl font-semibold tracking-tight text-ink md:text-4xl">
+                Common repairs
+              </h2>
+              <p className="mt-2.5 text-base leading-relaxed text-ink-soft">
+                Upfront pricing with no hidden travel fees. Every repair is completed at your doorstep and backed by warranty.
+              </p>
+            </div>
             <Link
               href="/services"
-              className="inline-flex items-center gap-1.5 font-semibold text-primary hover:text-primary-strong"
+              className="inline-flex items-center gap-2 rounded-full border border-line bg-bg px-4 py-2.5 text-sm font-semibold text-ink shadow-xs transition-colors hover:border-primary/40 hover:text-primary"
             >
               <span>See all services</span>
               <ArrowRight size={16} />

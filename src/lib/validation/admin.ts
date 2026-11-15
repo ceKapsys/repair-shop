@@ -20,6 +20,7 @@ export const serviceInput = z
     warrantyDays: optNumber,
     partsNote: optText(300),
     isEmergencyAvailable: z.boolean().default(false),
+    isCommonRepair: z.boolean().default(false),
     deviceIds: z.array(objectId).default([]),
     faqs: z.array(faq).max(30).default([]),
     isActive: z.boolean().default(true),

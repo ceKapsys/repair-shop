@@ -53,6 +53,7 @@ export interface ServiceT {
   warrantyDays?: number;
   partsNote?: string;
   isEmergencyAvailable: boolean;
+  isCommonRepair?: boolean;
   deviceIds: string[];
   faqs: Faq[];
   order: number;

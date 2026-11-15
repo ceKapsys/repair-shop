@@ -26,6 +26,7 @@ export function ServiceList({ services, categories, currency }: { services: Serv
             </span>
           </Link>
           {s.isEmergencyAvailable && <Badge tone="emergency"><Siren size={12} /> Emergency</Badge>}
+          <ToggleCell kind="service" id={s._id} field="isCommonRepair" value={Boolean(s.isCommonRepair)} label="Common Repair" />
           <ToggleCell kind="service" id={s._id} field="showPrice" value={s.showPrice} label="Price" />
           <ToggleCell kind="service" id={s._id} field="isActive" value={s.isActive} label="Live" />
           <DeleteButton kind="service" id={s._id} label={s.title} compact />
