@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight, Zap } from "lucide-react";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { ModelSearch } from "@/components/site/model-search";
 import { PageHero } from "@/components/site/page-hero";
@@ -31,20 +32,74 @@ export default async function BrandPage({ params }: Props) {
   return (
     <>
       <PageHero
+        eyebrow={`${brand.name} Repair`}
         title={fill(copy.device.brandH1, { brand: brand.name })}
         intro={copy.home.picker.sub}
-        crumbs={<Breadcrumbs items={[{ label: copy.nav.devices, href: "/devices" }, { label: brand.name, href: `/devices/${brand.slug}` }]} />}
+        crumbs={
+          <Breadcrumbs
+            items={[
+              { label: copy.nav.devices, href: "/devices" },
+              { label: brand.name, href: `/devices/${brand.slug}` },
+            ]}
+          />
+        }
+        actions={
+          <>
+            <Link
+              href="/emergency"
+              className="inline-flex h-11 items-center gap-2 rounded-xl bg-emergency px-5 text-sm font-semibold text-on-primary shadow-sm transition-colors hover:bg-emergency-strong"
+            >
+              <Zap size={16} />
+              <span>Emergency Booking</span>
+            </Link>
+            <Link
+              href="/book"
+              className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-on-primary shadow-sm transition-colors hover:bg-primary-strong"
+            >
+              <span>Book Online</span>
+              <ArrowRight size={16} />
+            </Link>
+          </>
+        }
       />
-      <div className="container-page pb-16 md:pb-24">
-        {devices.length === 0 ? (
-          <p className="text-ink-soft">{copy.misc.noModels}</p>
-        ) : (
-          <ModelSearch brand={brand.name} models={devices.map((d) => ({ id: d._id, name: d.model, href: `/devices/${brand.slug}/${d.slug}`, year: d.releaseYear }))} />
-        )}
-        <p className="mt-8">
-          <Link href="/book" className="inline-flex min-h-11 items-center font-medium text-primary underline-offset-4 hover:text-primary-strong hover:underline">{copy.device.notListed}</Link>
-        </p>
-      </div>
+
+      <section className="bg-bg py-12 md:py-16">
+        <div className="container-page">
+          {devices.length === 0 ? (
+            <div className="rounded-2xl border border-line bg-surface p-8 text-center text-ink-soft">
+              {copy.misc.noModels}
+            </div>
+          ) : (
+            <ModelSearch
+              brand={brand.name}
+              models={devices.map((d) => ({
+                id: d._id,
+                name: d.model,
+                href: `/devices/${brand.slug}/${d.slug}`,
+                year: d.releaseYear,
+              }))}
+            />
+          )}
+
+          <div className="mt-10 flex flex-col justify-between gap-4 rounded-3xl border border-line bg-surface p-7 sm:flex-row sm:items-center">
+            <div>
+              <h2 className="font-heading text-xl font-bold text-ink">
+                Model not listed?
+              </h2>
+              <p className="mt-1 text-sm text-ink-soft">
+                Book online anyway and let us know your {brand.name} model in the notes.
+              </p>
+            </div>
+            <Link
+              href="/book"
+              className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-strong"
+            >
+              <span>{copy.device.notListed}</span>
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

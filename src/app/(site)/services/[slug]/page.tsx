@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import { ArrowRight, Clock, ShieldCheck, Wrench, Zap } from "lucide-react";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { ContactMessage } from "@/components/site/contact-message";
 import { FaqSection } from "@/components/site/faq-section";
@@ -23,17 +23,28 @@ const c = copy.service;
 /** "We {verb phrase} at your home or office. Most repairs take {duration}." */
 function lead(service: ServiceT) {
   const verbPhrase = service.verbPhrase || `do ${service.title.toLowerCase()}`;
-  return service.duration ? fill(c.lead, { verbPhrase, duration: service.duration }) : fill(c.leadNoDuration, { verbPhrase });
+  return service.duration
+    ? fill(c.lead, { verbPhrase, duration: service.duration })
+    : fill(c.leadNoDuration, { verbPhrase });
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const [service, s] = await Promise.all([getServiceBySlug(slug), getSettings()]);
   if (!service) return {};
-  const vars = { what: service.title, city: s.contacts.city, duration: service.duration, warrantyDays: service.warrantyDays, phone: s.contacts.phones[0] };
+  const vars = {
+    what: service.title,
+    city: s.contacts.city,
+    duration: service.duration,
+    warrantyDays: service.warrantyDays,
+    phone: s.contacts.phones[0],
+  };
   return buildMetadata(service.seo, {
     title: fill(copy.meta.serviceTitle, { service: service.title, city: s.contacts.city }),
-    description: service.duration && service.warrantyDays ? fill(copy.meta.serviceDesc, vars) : fill(copy.meta.serviceDescShort, vars),
+    description:
+      service.duration && service.warrantyDays
+        ? fill(copy.meta.serviceDesc, vars)
+        : fill(copy.meta.serviceDescShort, vars),
     path: `/services/${service.slug}`,
     image: service.images[0]?.url,
   });
@@ -47,22 +58,38 @@ export default async function ServicePage({ params }: Props) {
   const [all, devices, brands] = await Promise.all([getServices(), getAllDevices(), getBrands()]);
   const brandById = new Map(brands.map((b) => [b._id, b]));
   const supported = devices
-    .filter((d) => service.deviceIds.includes(d._id) || d.repairs.some((r) => r.serviceId === service._id))
+    .filter(
+      (d) => service.deviceIds.includes(d._id) || d.repairs.some((r) => r.serviceId === service._id)
+    )
     .map((d) => ({ d, b: brandById.get(d.brandId) }))
     .filter((x) => x.b)
     .sort((a, b) => a.b!.name.localeCompare(b.b!.name) || a.d.model.localeCompare(b.d.model));
-  const related = all.filter((x) => x._id !== service._id && (service.categoryId ? x.categoryId === service.categoryId : true)).slice(0, 4);
+  const related = all
+    .filter(
+      (x) =>
+        x._id !== service._id && (service.categoryId ? x.categoryId === service.categoryId : true)
+    )
+    .slice(0, 4);
   const price = priceLabel(service, s.currency);
   const amount = offerPrice(service);
+
   const facts = [
-    service.duration && [c.facts.time, service.duration],
-    service.warrantyDays ? [c.facts.warranty, fill(c.facts.warrantyValue, { warrantyDays: service.warrantyDays })] : null,
-    service.partsNote && [c.facts.parts, service.partsNote],
-  ].filter(Boolean) as [string, string][];
+    service.duration && { icon: Clock, label: c.facts.time, value: service.duration },
+    service.warrantyDays
+      ? {
+          icon: ShieldCheck,
+          label: c.facts.warranty,
+          value: fill(c.facts.warrantyValue, { warrantyDays: service.warrantyDays }),
+        }
+      : null,
+    service.partsNote && { icon: Wrench, label: c.facts.parts, value: service.partsNote },
+  ].filter(Boolean) as { icon: typeof Clock; label: string; value: string }[];
 
   return (
     <>
-      <ContactMessage text={fill(copy.whatsapp.service, { shop: s.shopName, service: service.title })} />
+      <ContactMessage
+        text={fill(copy.whatsapp.service, { shop: s.shopName, service: service.title })}
+      />
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -72,30 +99,68 @@ export default async function ServicePage({ params }: Props) {
           serviceType: service.title,
           url: `${siteDefaults.url}/services/${service.slug}`,
           image: service.images[0]?.url,
-          provider: { "@id": `${siteDefaults.url}/#business`, "@type": "ElectronicsRepair", name: s.shopName, telephone: s.contacts.phones[0], url: siteDefaults.url },
+          provider: {
+            "@id": `${siteDefaults.url}/#business`,
+            "@type": "ElectronicsRepair",
+            name: s.shopName,
+            telephone: s.contacts.phones[0],
+            url: siteDefaults.url,
+          },
           areaServed: s.serviceAreas.map((a) => a.name),
           // Offers are published only when the price is visible on the page.
-          offers: amount != null ? { "@type": "Offer", priceCurrency: s.currency, price: amount } : undefined,
+          offers:
+            amount != null ? { "@type": "Offer", priceCurrency: s.currency, price: amount } : undefined,
         }}
       />
-      <section className="container-page pt-8 md:pt-12">
-        <Breadcrumbs items={[{ label: copy.nav.services, href: "/services" }, { label: service.title, href: `/services/${service.slug}` }]} />
-        <div className="mt-6 grid gap-10 lg:grid-cols-[1fr_380px]">
-          <div>
-            <h1 className="max-w-[18ch]">{fill(c.h1, { service: service.title, city: s.contacts.city })}</h1>
-            <p className="mt-5 max-w-[60ch] text-ink-soft">{lead(service)}</p>
-            {facts.length > 0 && (
-              <dl className="mt-8 grid gap-x-8 gap-y-4 border-y border-line py-5 sm:grid-cols-3">
-                {facts.map(([k, v]) => (
-                  <div key={k}>
-                    <dt className="text-sm leading-5 font-medium text-ink-soft">{k}</dt>
-                    <dd className="mt-1 font-medium">{v}</dd>
+
+      {/* Modern Hero Banner */}
+      <section className="border-b border-line bg-surface pt-8 pb-12 md:pt-12 md:pb-16">
+        <div className="container-page">
+          <Breadcrumbs
+            items={[
+              { label: copy.nav.services, href: "/services" },
+              { label: service.title, href: `/services/${service.slug}` },
+            ]}
+          />
+
+          <div className="mt-6 max-w-3xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-bg px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+              Mobile Repair Service
+            </span>
+            <h1 className="mt-4 font-heading text-3xl font-bold tracking-tight text-ink sm:text-4xl md:text-5xl">
+              {fill(c.h1, { service: service.title, city: s.contacts.city })}
+            </h1>
+            <p className="mt-3 text-base leading-relaxed text-ink-soft md:text-lg">
+              {lead(service)}
+            </p>
+          </div>
+
+          {facts.length > 0 && (
+            <dl className="mt-8 grid gap-3 sm:grid-cols-3">
+              {facts.map(({ icon: Icon, label, value }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-3.5 rounded-2xl border border-line bg-bg p-4"
+                >
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Icon size={18} />
                   </div>
-                ))}
-              </dl>
-            )}
+                  <div className="min-w-0">
+                    <dt className="text-xs font-medium text-ink-soft">{label}</dt>
+                    <dd className="truncate text-sm font-semibold text-ink">{value}</dd>
+                  </div>
+                </div>
+              ))}
+            </dl>
+          )}
+        </div>
+      </section>
+
+      <section className="bg-bg py-12 md:py-16">
+        <div className="container-page grid gap-10 lg:grid-cols-[1fr_360px]">
+          <div>
             {service.images.length > 0 && (
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              <div className="mb-8 grid gap-3 sm:grid-cols-2">
                 {service.images.slice(0, 4).map((img, i) => (
                   <Photo
                     key={img.url}
@@ -105,58 +170,87 @@ export default async function ServicePage({ params }: Props) {
                     height={img.height ?? 800}
                     priority={i === 0}
                     sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
-                    className={`w-full rounded-card border border-line object-cover ${i === 0 && service.images.length !== 2 ? "sm:col-span-2" : ""}`}
+                    className={`w-full rounded-2xl border border-line object-cover ${
+                      i === 0 && service.images.length !== 2 ? "sm:col-span-2" : ""
+                    }`}
                   />
                 ))}
               </div>
             )}
-            <RichHtml html={service.body?.html} className="mt-10" />
+            <RichHtml html={service.body?.html} />
           </div>
 
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-card bg-night p-6 text-on-primary">
+            <div className="rounded-2xl border border-line bg-night p-6 text-on-primary shadow-md">
               <PriceChip price={price} />
-              <p className="mt-3 text-sm leading-5 text-on-primary/80">{c.priceNote}</p>
-              <Link href={`/book?service=${service.slug}`} className={buttonVariants({ size: "lg", className: "mt-6 w-full" })}>{c.book}</Link>
+              <p className="mt-3 text-sm leading-relaxed text-on-primary/80">{c.priceNote}</p>
+              <Link
+                href={`/book?service=${service.slug}`}
+                className="mt-6 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-strong"
+              >
+                <span>{c.book}</span>
+                <ArrowRight size={16} />
+              </Link>
               {service.isEmergencyAvailable && s.emergency.enabled && (
-                <Link href={`/emergency?service=${service.slug}`} className="mt-3 flex min-h-11 items-center justify-center gap-2 text-[15px] font-medium underline-offset-4 hover:underline">
-                  {copy.misc.emergencyToday} {copy.home.emergencyBand.cta}
+                <Link
+                  href={`/emergency?service=${service.slug}`}
+                  className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-emergency px-5 text-sm font-semibold text-on-primary transition-colors hover:bg-emergency-strong"
+                >
+                  <Zap size={16} />
+                  <span>
+                    {copy.misc.emergencyToday} {copy.home.emergencyBand.cta}
+                  </span>
                 </Link>
               )}
             </div>
           </aside>
         </div>
-      </section>
 
-      <div className="container-page grid gap-16 py-16 md:py-24">
-        {supported.length > 0 && (
-          <section aria-labelledby="models">
-            <h2 id="models">{c.devices}</h2>
-            <ul className="mt-6 flex flex-wrap gap-2">
-              {supported.map(({ d, b }) => (
-                <li key={d._id}>
-                  <Link href={`/devices/${b!.slug}/${d.slug}`} className="inline-flex min-h-11 items-center rounded-full border border-line px-4 text-sm font-medium hover:bg-surface">
-                    {b!.name} {d.model}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-        <FaqSection faqs={service.faqs} title={c.faq} />
-        {related.length > 0 && (
-          <section aria-labelledby="related">
-            <h2 id="related">{c.related}</h2>
-            <div className="mt-6">
-              <ServiceList>
-                {related.map((x) => (
-                  <ServiceRow key={x._id} href={`/services/${x.slug}`} title={x.title} icon={x.icon} duration={x.duration} warrantyDays={x.warrantyDays} price={priceLabel(x, s.currency)} />
+        <div className="container-page mt-16 grid gap-16">
+          {supported.length > 0 && (
+            <section aria-labelledby="models">
+              <h2 id="models" className="font-heading text-2xl font-bold text-ink">
+                {c.devices}
+              </h2>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {supported.map(({ d, b }) => (
+                  <li key={d._id}>
+                    <Link
+                      href={`/devices/${b!.slug}/${d.slug}`}
+                      className="inline-flex h-10 items-center rounded-full border border-line bg-surface px-4 text-sm font-medium text-ink transition-colors hover:border-primary/40 hover:text-primary"
+                    >
+                      {b!.name} {d.model}
+                    </Link>
+                  </li>
                 ))}
-              </ServiceList>
-            </div>
-          </section>
-        )}
-      </div>
+              </ul>
+            </section>
+          )}
+          <FaqSection faqs={service.faqs} title={c.faq} />
+          {related.length > 0 && (
+            <section aria-labelledby="related">
+              <h2 id="related" className="font-heading text-2xl font-bold text-ink">
+                {c.related}
+              </h2>
+              <div className="mt-5">
+                <ServiceList>
+                  {related.map((x) => (
+                    <ServiceRow
+                      key={x._id}
+                      href={`/services/${x.slug}`}
+                      title={x.title}
+                      icon={x.icon}
+                      duration={x.duration}
+                      warrantyDays={x.warrantyDays}
+                      price={priceLabel(x, s.currency)}
+                    />
+                  ))}
+                </ServiceList>
+              </div>
+            </section>
+          )}
+        </div>
+      </section>
     </>
   );
 }
