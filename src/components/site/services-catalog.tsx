@@ -135,98 +135,111 @@ export function ServicesCatalog({
   return (
     <div className="space-y-8">
       {/* Search & Filter Toolbar */}
-      <div className="flex flex-col gap-4 rounded-2xl border border-line bg-surface p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
-        <div className="relative flex-1 lg:max-w-md">
-          <Search
-            size={17}
-            className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-steel"
-            aria-hidden
-          />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search repairs (e.g. screen, battery, water damage)..."
-            aria-label="Search repair services"
-            className="h-11 w-full rounded-xl border border-line bg-bg pr-10 pl-10 text-sm text-ink placeholder:text-ink-soft/70 focus:border-primary focus:outline-none"
-          />
-          {query && (
+      <div className="rounded-2xl border border-line bg-surface p-4 shadow-2xs sm:p-5">
+        {/* Top Row: Spacious Search + Quick Mode Toggles */}
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="relative min-w-0 flex-1 md:max-w-lg">
+            <Search
+              size={17}
+              className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-steel"
+              aria-hidden
+            />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search repairs (e.g. screen, battery, water damage)..."
+              aria-label="Search repair services"
+              className="h-11 w-full rounded-xl border border-line bg-bg pr-10 pl-10 text-sm text-ink placeholder:text-ink-soft/70 transition-colors focus:border-primary focus:outline-none"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="absolute top-1/2 right-2.5 -translate-y-1/2 rounded-md p-1 text-steel hover:bg-surface hover:text-ink"
+              >
+                <X size={15} />
+              </button>
+            )}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 md:shrink-0">
             <button
               type="button"
-              onClick={() => setQuery("")}
-              aria-label="Clear search"
-              className="absolute top-1/2 right-2.5 -translate-y-1/2 rounded-md p-1 text-steel hover:bg-surface hover:text-ink"
-            >
-              <X size={15} />
-            </button>
-          )}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setFilter("all")}
-            className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-xs font-semibold transition-colors ${
-              filter === "all"
-                ? "border-primary bg-primary text-on-primary"
-                : "border-line bg-bg text-ink-soft hover:border-line-strong hover:text-ink"
-            }`}
-          >
-            <span>All services</span>
-            <span className="opacity-75">({activeServices.length})</span>
-          </button>
-
-          {commonCount > 0 && (
-            <button
-              type="button"
-              onClick={() => setFilter(filter === "common" ? "all" : "common")}
-              className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-xs font-semibold transition-colors ${
-                filter === "common"
-                  ? "border-primary bg-primary text-on-primary"
+              onClick={() => setFilter("all")}
+              className={`inline-flex h-10 items-center gap-1.5 rounded-xl border px-3.5 text-xs font-semibold transition-colors ${
+                filter === "all"
+                  ? "border-primary bg-primary text-on-primary shadow-2xs"
                   : "border-line bg-bg text-ink-soft hover:border-line-strong hover:text-ink"
               }`}
             >
-              <Sparkles size={13} />
-              <span>Common repairs</span>
-              <span className="opacity-75">({commonCount})</span>
+              <span>All services</span>
+              <span className="opacity-75">({activeServices.length})</span>
             </button>
-          )}
 
-          {emergencyCount > 0 && (
-            <button
-              type="button"
-              onClick={() => setFilter(filter === "emergency" ? "all" : "emergency")}
-              className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-xs font-semibold transition-colors ${
-                filter === "emergency"
-                  ? "border-emergency bg-emergency text-on-primary"
-                  : "border-emergency/25 bg-emergency/10 text-emergency hover:bg-emergency/15"
-              }`}
-            >
-              <Zap size={13} />
-              <span>24/7 Emergency</span>
-              <span className="opacity-80">({emergencyCount})</span>
-            </button>
-          )}
-
-          {activeCategories.map((cat) => {
-            const mode: FilterMode = `cat:${cat._id}`;
-            const active = filter === mode;
-            return (
+            {commonCount > 0 && (
               <button
-                key={cat._id}
                 type="button"
-                onClick={() => setFilter(active ? "all" : mode)}
-                className={`inline-flex h-9 items-center rounded-full border px-3.5 text-xs font-semibold transition-colors ${
-                  active
-                    ? "border-primary bg-primary text-on-primary"
+                onClick={() => setFilter(filter === "common" ? "all" : "common")}
+                className={`inline-flex h-10 items-center gap-1.5 rounded-xl border px-3.5 text-xs font-semibold transition-colors ${
+                  filter === "common"
+                    ? "border-primary bg-primary text-on-primary shadow-2xs"
                     : "border-line bg-bg text-ink-soft hover:border-line-strong hover:text-ink"
                 }`}
               >
-                {cat.name}
+                <Sparkles size={13} />
+                <span>Common repairs</span>
+                <span className="opacity-75">({commonCount})</span>
               </button>
-            );
-          })}
+            )}
+
+            {emergencyCount > 0 && (
+              <button
+                type="button"
+                onClick={() => setFilter(filter === "emergency" ? "all" : "emergency")}
+                className={`inline-flex h-10 items-center gap-1.5 rounded-xl border px-3.5 text-xs font-semibold transition-colors ${
+                  filter === "emergency"
+                    ? "border-emergency bg-emergency text-on-primary shadow-2xs"
+                    : "border-emergency/25 bg-emergency/10 text-emergency hover:bg-emergency/15"
+                }`}
+              >
+                <Zap size={13} />
+                <span>24/7 Emergency</span>
+                <span className="opacity-80">({emergencyCount})</span>
+              </button>
+            )}
+          </div>
         </div>
+
+        {/* Bottom Row: Category Pills */}
+        {activeCategories.length > 0 && (
+          <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line/70 pt-3.5">
+            <span className="mr-1 text-xs font-semibold uppercase tracking-wider text-steel">
+              Category:
+            </span>
+            {activeCategories.map((cat) => {
+              const mode: FilterMode = `cat:${cat._id}`;
+              const active = filter === mode;
+              const count = activeServices.filter((s) => s.categoryId === cat._id).length;
+              return (
+                <button
+                  key={cat._id}
+                  type="button"
+                  onClick={() => setFilter(active ? "all" : mode)}
+                  className={`inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-colors ${
+                    active
+                      ? "border-primary bg-primary/10 font-semibold text-primary"
+                      : "border-line bg-bg text-ink-soft hover:border-line-strong hover:text-ink"
+                  }`}
+                >
+                  <span>{cat.name}</span>
+                  <span className="text-[11px] opacity-65">{count}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Results Header */}
@@ -289,3 +302,4 @@ export function ServicesCatalog({
     </div>
   );
 }
+
