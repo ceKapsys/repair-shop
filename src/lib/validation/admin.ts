@@ -74,6 +74,15 @@ export const postInput = z.object({
 
 export const galleryInput = z.object({
   image: z.object({ url: z.string().min(1, "Image is required"), width: z.number().optional(), height: z.number().optional() }),
+  afterImage: z
+    .object({
+      url: z.string().min(1, "After image is required"),
+      width: z.number().optional(),
+      height: z.number().optional(),
+      alt: z.string().trim().max(200).optional(),
+    })
+    .optional()
+    .nullable(),
   caption: optText(200),
   alt: z.string().trim().min(1, "Alt text is required").max(200),
   tags: z.array(z.string().trim().max(40)).max(20).default([]),

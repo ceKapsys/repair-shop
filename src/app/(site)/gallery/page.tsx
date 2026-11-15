@@ -23,7 +23,12 @@ export default async function GalleryPage() {
     .filter((g) => !afters.has(g._id))
     .map((g) => {
       const pair = g.isBeforeAfter && g.pairId ? byId.get(g.pairId) : undefined;
-      return { id: g._id, url: g.image.url, alt: g.alt, caption: g.caption, tags: g.tags ?? [], after: pair ? { url: pair.image.url, alt: pair.alt } : undefined };
+      const after = g.afterImage?.url
+        ? { url: g.afterImage.url, alt: g.afterImage.alt || g.alt }
+        : pair
+          ? { url: pair.image.url, alt: pair.alt }
+          : undefined;
+      return { id: g._id, url: g.image.url, alt: g.alt, caption: g.caption, tags: g.tags ?? [], after };
     });
   return (
     <>

@@ -124,6 +124,7 @@ export interface PostT {
 export interface GalleryItemT {
   _id: string;
   image: { url: string; width?: number; height?: number };
+  afterImage?: { url: string; width?: number; height?: number; alt?: string };
   caption?: string;
   alt: string;
   tags: string[];
@@ -132,6 +133,8 @@ export interface GalleryItemT {
   isBeforeAfter: boolean;
   pairId?: string;
   order: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ReviewT {
