@@ -82,7 +82,11 @@ export const defaultSettings = (): SiteSettings => ({
     { step: "02", title: "We come to you.", text: "A certified technician arrives at your door with OEM parts." },
     { step: "03", title: "Fixed on the spot.", text: "You inspect and test the repaired device, then pay." },
   ],
-  branding: {},
+  branding: {
+    logo: "/images/logo.png",
+    logoDark: "/images/logo-dark.png",
+    favicon: "/favicon.ico",
+  },
   contacts: {
     phones: ["(954) 955-7572"],
     whatsapp: "https://wa.me/message/6MOOTRK5QAJOD1",
@@ -188,9 +192,9 @@ export function mergeSettings(s: any): SiteSettings {
     },
     howItWorks: arr(s.howItWorks, d.howItWorks ?? []),
     branding: {
-      logo: s.branding?.logo || undefined,
-      logoDark: s.branding?.logoDark || undefined,
-      favicon: s.branding?.favicon || undefined,
+      logo: s.branding?.logo || d.branding.logo || "/images/logo.png",
+      logoDark: s.branding?.logoDark || d.branding.logoDark || "/images/logo-dark.png",
+      favicon: s.branding?.favicon || d.branding.favicon || "/favicon.ico",
     },
     contacts: {
       phones: arr(s.contacts?.phones?.filter(Boolean), d.contacts.phones),
