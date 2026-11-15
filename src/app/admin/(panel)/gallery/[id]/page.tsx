@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   return (
     <GalleryEditor
       item={item}
-      others={plain<GalleryItemT[]>(others).map((o) => ({ value: o._id, label: o.caption || o.alt }))}
+      others={plain<GalleryItemT[]>(others).map((o) => ({ value: o._id, label: o.caption || o.alt, url: o.image?.url }))}
       services={plain<ServiceT[]>(services).map((s) => ({ value: s._id, label: s.title }))}
       devices={devices.map((d) => ({ value: d.value, label: `${d.group} ${d.label}` }))}
     />

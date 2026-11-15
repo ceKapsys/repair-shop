@@ -19,7 +19,7 @@ export type Entity = {
 };
 
 export const registry = {
-  service: { model: Service, schema: serviceInput, tags: [TAGS.services], label: "Service", ordered: true, toggles: ["isActive", "showPrice", "isEmergencyAvailable"], path: (d) => `/services/${d.slug}` },
+  service: { model: Service, schema: serviceInput, tags: [TAGS.services], label: "Service", ordered: true, toggles: ["isActive", "showPrice", "isEmergencyAvailable", "isCommonRepair"], path: (d) => `/services/${d.slug}` },
   serviceCategory: { model: ServiceCategory, schema: categoryInput, tags: [TAGS.services], label: "Service category", ordered: true },
   postCategory: { model: PostCategory, schema: categoryInput, tags: [TAGS.posts], label: "Blog category", path: (d) => `/blog/category/${d.slug}` },
   brand: { model: Brand, schema: brandInput, tags: [TAGS.devices], label: "Brand", ordered: true, path: (d) => `/devices/${d.slug}` },

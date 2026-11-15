@@ -19,6 +19,7 @@ const serviceSchema = new Schema(
     warrantyDays: { type: Number, default: 90 },
     partsNote: String,
     isEmergencyAvailable: { type: Boolean, default: false },
+    isCommonRepair: { type: Boolean, default: false },
     deviceIds: [{ type: Schema.Types.ObjectId, ref: "Device" }],
     faqs: [faqSchema],
     order: { type: Number, default: 0 },

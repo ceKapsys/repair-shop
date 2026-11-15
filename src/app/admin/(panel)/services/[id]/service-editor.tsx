@@ -15,7 +15,7 @@ import { saveDoc } from "../../actions";
 
 const blank = {
   title: "", slug: "", categoryId: "", shortDesc: "", verbPhrase: "", body: { html: "" }, icon: "", images: [], priceType: "from", priceMin: undefined, priceMax: undefined,
-  showPrice: true, duration: "", warrantyDays: 90, partsNote: "", isEmergencyAvailable: false, deviceIds: [], faqs: [], isActive: true, seo: { keywords: [] },
+  showPrice: true, duration: "", warrantyDays: 90, partsNote: "", isEmergencyAvailable: false, isCommonRepair: false, deviceIds: [], faqs: [], isActive: true, seo: { keywords: [] },
 };
 
 export function ServiceEditor({
@@ -100,6 +100,7 @@ export function ServiceEditor({
               <aside className="space-y-4 xl:sticky xl:top-36 xl:self-start">
                 <Section>
                   <Toggle name="isActive" label="Live on website" />
+                  <Toggle name="isCommonRepair" label="Show as Common Repair on Home Page" hint="Feature this service in the Common Repairs section on the home page." />
                 </Section>
                 <div>
                   <p className="mb-2 text-sm font-medium">Card preview</p>

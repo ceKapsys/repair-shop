@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { copy, fill } from "@/content/copy";
 import type { SiteSettings } from "@/lib/settings";
@@ -19,10 +20,22 @@ export function SiteFooter({ s }: { s: SiteSettings }) {
       <div className="container-page grid gap-10 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2.5 font-heading text-lg font-bold text-on-primary">
-            <span className="flex size-[34px] items-center justify-center rounded-[9px] bg-on-primary font-mono text-[13px] font-semibold text-night">
-              911
-            </span>
-            <span>{s.shopName}</span>
+            {s.branding.logoDark || s.branding.logo ? (
+              <Image
+                src={s.branding.logoDark || s.branding.logo || "/images/logo-dark.png"}
+                alt={s.shopName}
+                width={180}
+                height={44}
+                className="h-9 w-auto"
+              />
+            ) : (
+              <>
+                <span className="flex size-[34px] items-center justify-center rounded-[9px] bg-on-primary font-mono text-[13px] font-semibold text-night">
+                  911
+                </span>
+                <span>{s.shopName}</span>
+              </>
+            )}
           </div>
           <p className="mt-3.5 max-w-[32ch] text-sm leading-relaxed text-mist">
             Doorstep and emergency repair for phones, laptops, tablets, consoles, watches and audio in {city}.

@@ -21,10 +21,14 @@
   --color-line-strong: #d4e2f5;
   --color-night: #262b40;
   --color-emergency: #b42318;
+  --color-crimson: #b42318;
+  --color-crimson-strong: #991b1b;
   --color-success: #15803d;
   --color-warning: #b45309;
   --color-star: #f5b400;
   --color-on-primary: #ffffff;
+  --color-on-night: #ffffff;
+  --color-on-night-soft: #a8c4ec;
   --color-scrim: rgb(20 24 36 / 0.5);
 
   --shadow-card: 0 1px 2px rgb(38 43 64 / 0.06), 0 4px 16px rgb(38 43 64 / 0.06);
@@ -69,10 +73,14 @@
   --color-line-strong: #3d4b66;
   --color-night: #141824;
   --color-emergency: #f87171;
+  --color-crimson: #f87171;
+  --color-crimson-strong: #ef4444;
   --color-success: #4ade80;
   --color-warning: #fbbf24;
   --color-star: #f5b400;
   --color-on-primary: #ffffff;
+  --color-on-night: #ffffff;
+  --color-on-night-soft: #a8c4ec;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -90,10 +98,14 @@
     --color-line-strong: #3d4b66;
     --color-night: #141824;
     --color-emergency: #f87171;
+    --color-crimson: #f87171;
+    --color-crimson-strong: #ef4444;
     --color-success: #4ade80;
     --color-warning: #fbbf24;
     --color-star: #f5b400;
     --color-on-primary: #ffffff;
+    --color-on-night: #ffffff;
+    --color-on-night-soft: #a8c4ec;
     color-scheme: dark;
   }
 }
@@ -460,5 +472,10 @@ dialog[open]::backdrop {
   background: var(--color-night);
   color: var(--color-on-primary);
 }
+
+.radial-ambient-glow {
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, color-mix(in srgb, var(--color-primary) 6%, transparent), transparent 70%);
+}
+
 
 

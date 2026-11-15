@@ -4,6 +4,7 @@ import { defineModel } from "./_shared";
 const schema = new Schema(
   {
     image: { url: { type: String, required: true }, width: Number, height: Number, blurDataURL: String },
+    afterImage: { url: String, width: Number, height: Number, blurDataURL: String, alt: String },
     caption: String,
     alt: { type: String, required: true },
     tags: [String],
