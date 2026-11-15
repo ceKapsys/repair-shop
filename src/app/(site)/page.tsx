@@ -271,7 +271,7 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          <ol className="grid grid-cols-1 border-t border-line-strong pt-8 sm:grid-cols-3 sm:gap-8">
+          <ol className="steps">
             {(s.howItWorks && s.howItWorks.length > 0
               ? s.howItWorks
               : [
@@ -280,7 +280,7 @@ export default async function HomePage() {
                   { step: "03", title: "Fixed on the spot.", text: "You inspect and test the repaired device, then pay." },
                 ]
             ).map((stepItem, i) => (
-              <li key={stepItem.step || i} className="relative pb-8 pr-6 sm:pb-0">
+              <li key={stepItem.step || i}>
                 <span className="font-mono text-sm font-semibold text-steel">
                   {stepItem.step || `0${i + 1}`}
                 </span>
