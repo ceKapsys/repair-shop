@@ -433,17 +433,23 @@ export function SettingsEditor({ initial, emailConfigured, uploadsConfigured }: 
                 </div>
                 <ClosedDays />
               </Section>
-              <Section title="Emergency repairs" description="Outside these hours customers are offered the next standard slot instead.">
+              <Section title="Emergency repairs" description="Set emergency repair call-out fee and weekly schedule. The public website automatically checks today's date and shows only today's open hours.">
                 <Toggle name="emergency.enabled" label="Offer emergency repairs" />
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <NumberInput name="emergency.fee" label="Emergency call-out fee" prefix={currency} hint="Shown before the customer submits. Use 0 for no fee." className="max-w-xs" />
+                  <NumberInput name="emergency.fee" label="Emergency call-out fee" prefix={currency} hint="Call-out fee charged for emergency repairs (e.g. 35). Set to 0 for free." className="max-w-xs" />
                   <NumberInput name="emergency.responseMinutes" label="Callback response ETA (min)" hint="Minutes to callback, e.g. 30." className="max-w-xs" />
                 </div>
                 <TextInput name="emergency.title" label="Emergency headline (optional)" placeholder="Can't wait until tomorrow?" counter={{ max: 120 }} />
-                <TextArea name="emergency.body" label="Emergency explanation text (optional)" placeholder="Emergency repairs today: a certified technician calls you within 30 minutes of booking." counter={{ max: 300 }} />
+                <TextArea name="emergency.body" label="Emergency explanation text (optional)" placeholder="Emergency repairs in Florida: a certified technician calls you within 30 minutes of booking." counter={{ max: 300 }} />
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <TextInput name="emergency.hoursText" label="Hours badge" placeholder="8 AM–11 PM EST" counter={{ max: 80 }} />
-                  <TextInput name="emergency.statusText" label="Live status badge" placeholder="Emergency service open today until 11:00 PM EST" counter={{ max: 120 }} />
+                  <TextInput name="emergency.hoursText" label="Hours badge (optional override)" hint="Leave blank to auto-display today's hours from the schedule below" placeholder="Auto-calculated from today's schedule" counter={{ max: 80 }} />
+                  <TextInput name="emergency.statusText" label="Live status badge (optional override)" hint="Leave blank to auto-calculate live open/closed status" placeholder="Auto-calculated from today's schedule" counter={{ max: 120 }} />
+                </div>
+                <div className="pt-2">
+                  <h4 className="text-sm font-semibold text-ink">Weekly Emergency Schedule</h4>
+                  <p className="text-xs text-ink-soft">
+                    Fix and adjust the schedule per day. The website checks the current day in your shop&apos;s timezone and displays only today&apos;s available hours.
+                  </p>
                 </div>
                 <EmergencyTable />
               </Section>

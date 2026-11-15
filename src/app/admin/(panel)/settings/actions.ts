@@ -21,6 +21,13 @@ export async function saveSettings(input: unknown): Promise<ActionResult> {
       const [a, b] = w.split("-");
       if (a >= b) return fail("Please fix the highlighted fields", { "bookingSlots.windows": `Window ${w} must end after it starts` });
     }
+    for (const [i, sched] of data.emergency.schedule.entries()) {
+      if (sched.enabled && sched.open >= sched.close) {
+        return fail("Please fix the highlighted fields", {
+          [`emergency.schedule.${i}.close`]: "Close time must be after open time",
+        });
+      }
+    }
     await connectDb();
     const doc = (await Settings.findById("site")) ?? new Settings({ _id: "site" });
     doc.set(data);

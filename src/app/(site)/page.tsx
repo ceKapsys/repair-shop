@@ -32,6 +32,7 @@ import {
 import { DAY_NAMES } from "@/lib/format";
 import { getSettings } from "@/lib/settings";
 import { siteDefaults } from "@/lib/site";
+import { getEmergencyTodayInfo } from "@/lib/time";
 
 const STEP_METADATA = [
   {
@@ -98,9 +99,7 @@ export default async function HomePage() {
   const phone = s.contacts.phones[0] || "(954) 955-7572";
   const whatsappNumber = s.contacts.whatsapp || "19549557572";
   const city = s.contacts.city || "Lauderhill & South Florida";
-  const emergencyFee = s.emergency.fee
-    ? `${s.currency === "USD" || !s.currency ? "$" : s.currency}${s.emergency.fee}`
-    : "$35";
+  const em = getEmergencyTodayInfo(s.emergency, s.timezone, s.currency);
 
   return (
     <>
@@ -472,9 +471,9 @@ export default async function HomePage() {
           <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
             {/* Left Emergency Text */}
             <div>
-              <p className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-night px-3.5 py-1.5 text-xs font-semibold text-on-primary mb-5">
-                <span className="dot" />
-                <span>{s.emergency.statusText || "Emergency service open today until 11:00 PM EST"}</span>
+              <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-line-strong bg-night px-3.5 py-1.5 text-xs font-semibold text-on-primary">
+                <span className={`size-2 rounded-full ${em.isCurrentlyOpen ? "bg-emergency animate-pulse" : "bg-steel"}`} />
+                <span>{em.statusText}</span>
               </p>
 
               <h2 id="em-h" className="font-heading text-3xl font-semibold tracking-tight text-on-primary md:text-4xl">
@@ -483,7 +482,7 @@ export default async function HomePage() {
 
               <p className="mt-3.5 max-w-[44ch] text-base leading-relaxed text-mist md:text-lg">
                 {s.emergency.body ||
-                  `Emergency repairs today: a certified technician calls you within ${s.emergency.responseMinutes || 30} minutes of booking.`}
+                  `Emergency repairs in Florida: a certified technician calls you within ${em.responseMinutes} minutes of booking.`}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -512,17 +511,17 @@ export default async function HomePage() {
               <div className="flex items-baseline justify-between gap-4 bg-night p-5">
                 <span className="text-sm text-mist">Callback within</span>
                 <strong className="font-mono text-xl font-bold text-on-primary">
-                  {s.emergency.responseMinutes || 30} min
+                  {em.responseMinutes} min
                 </strong>
               </div>
               <div className="flex items-baseline justify-between gap-4 bg-night p-5">
                 <span className="text-sm text-mist">Emergency fee</span>
-                <strong className="font-mono text-xl font-bold text-on-primary">{emergencyFee}</strong>
+                <strong className="font-mono text-xl font-bold text-on-primary">{em.feeFormatted}</strong>
               </div>
               <div className="flex items-baseline justify-between gap-4 bg-night p-5">
                 <span className="text-sm text-mist">Today&rsquo;s hours</span>
                 <strong className="font-mono text-xl font-bold text-on-primary">
-                  {s.emergency.hoursText || "8 AM–11 PM EST"}
+                  {em.todayHours}
                 </strong>
               </div>
             </div>

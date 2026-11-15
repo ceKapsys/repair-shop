@@ -148,8 +148,8 @@ export const defaultSettings = (): SiteSettings => ({
     responseMinutes: 30,
     title: "Can't wait until tomorrow?",
     body: "Emergency repairs today: a certified technician calls you within 30 minutes of booking.",
-    hoursText: "Tue: 7 AM–11:45 PM · Wed–Mon: 6–10 AM & 8–11:45 PM",
-    statusText: "Emergency service open today until 11:45 PM EST",
+    hoursText: "",
+    statusText: "",
     schedule: [
       { day: 0, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
       { day: 1, enabled: true, open: "06:00", close: "23:45", responseMinutes: 30 },
