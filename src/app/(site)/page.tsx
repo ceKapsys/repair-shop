@@ -1,6 +1,8 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  CalendarClock,
+  CheckCircle2,
   Eye,
   MessageCircle,
   Phone,
@@ -8,6 +10,8 @@ import {
   ShieldCheck,
   Star,
   Tag,
+  Truck,
+  Zap,
 } from "lucide-react";
 import { BeforeAfterSlider } from "@/components/site/before-after-slider";
 import { DevicePicker } from "@/components/site/device-picker";
@@ -28,6 +32,57 @@ import {
 import { DAY_NAMES } from "@/lib/format";
 import { getSettings } from "@/lib/settings";
 import { siteDefaults } from "@/lib/site";
+
+const STEP_METADATA = [
+  {
+    icon: CalendarClock,
+    badgeLabel: "Avg. Booking Time",
+    badgeValue: "< 60 seconds",
+    bullets: [
+      "Select your exact device & damage issue",
+      "Pick a 1-hour window that fits your day",
+      "Upfront quote with zero hidden travel fees",
+    ],
+  },
+  {
+    icon: Truck,
+    badgeLabel: "Service Coverage",
+    badgeValue: "Broward, Miami-Dade & Palm Beach",
+    bullets: [
+      "Certified tech arrives in a mobile workshop",
+      "We meet you at your home, office, hotel, or cafe",
+      "Real-time dispatch & SMS arrival updates",
+    ],
+  },
+  {
+    icon: ShieldCheck,
+    badgeLabel: "Warranty Protection",
+    badgeValue: "Up to 180-day warranty",
+    bullets: [
+      "Completed in 20–45 mins while you watch",
+      "OEM-grade parts & strict multi-point testing",
+      "Inspect & test thoroughly before paying",
+    ],
+  },
+];
+
+const DEFAULT_STEPS = [
+  {
+    step: "01",
+    title: "Book in 60 seconds",
+    text: "Choose your device, tell us the issue, and pick a time window that fits your schedule.",
+  },
+  {
+    step: "02",
+    title: "We come to you",
+    text: "A certified technician arrives in a mobile workshop at your Florida home, office, or hotel.",
+  },
+  {
+    step: "03",
+    title: "Repaired on the spot",
+    text: "Watch your repair completed in 20–45 mins. Test every feature thoroughly before paying.",
+  },
+];
 
 export default async function HomePage() {
   const [s, services, brands, devices, reviews, posts, gallery] = await Promise.all([
@@ -263,36 +318,127 @@ export default async function HomePage() {
       {/* =========================================================================
           THREE STEPS, NO SHOP VISIT (#how)
           ========================================================================= */}
-      <section className="py-20 md:py-24" aria-labelledby="how-h">
+      <section className="relative overflow-hidden py-20 md:py-28" id="how" aria-labelledby="how-h">
+        {/* Subtle ambient radial glow */}
+        <div className="pointer-events-none absolute inset-0 -z-10 radial-ambient-glow" />
+
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="mb-10">
-            <h2 id="how-h" className="font-heading text-3xl font-semibold tracking-tight text-ink md:text-4xl">
-              Three steps, no shop visit
-            </h2>
+          {/* Header */}
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+                <span className="size-2 rounded-full bg-primary animate-pulse" />
+                <span>How It Works · Florida Doorstep Repair</span>
+              </div>
+              <h2 id="how-h" className="mt-4 font-heading text-3xl font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl">
+                Three steps, no shop visit
+              </h2>
+              <p className="mt-3.5 text-base leading-relaxed text-ink-soft sm:text-lg">
+                We bring certified technicians, precision diagnostic tools, and OEM-grade parts directly to your doorstep. Zero traffic, zero waiting rooms.
+              </p>
+            </div>
+
+            <div className="hidden items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 text-xs font-medium text-ink-soft shadow-2xs lg:flex">
+              <span className="size-2 rounded-full bg-success" />
+              <span>Mobile repair units active today across {city}</span>
+            </div>
           </div>
 
-          <ol className="steps">
-            {(s.howItWorks && s.howItWorks.length > 0
-              ? s.howItWorks
-              : [
-                  { step: "01", title: "Book in a minute.", text: "Tell us the device and the problem, pick a time." },
-                  { step: "02", title: "We come to you.", text: "A certified technician arrives at your door with OEM parts." },
-                  { step: "03", title: "Fixed on the spot.", text: "You inspect and test the repaired device, then pay." },
-                ]
-            ).map((stepItem, i) => (
-              <li key={stepItem.step || i}>
-                <span className="font-mono text-sm font-semibold text-steel">
-                  {stepItem.step || `0${i + 1}`}
-                </span>
-                <h3 className="mt-2.5 font-heading text-xl font-semibold text-ink">
-                  {stepItem.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                  {stepItem.text}
-                </p>
-              </li>
-            ))}
-          </ol>
+          {/* 3 Step Cards */}
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
+            {(s.howItWorks && s.howItWorks.length > 0 ? s.howItWorks : DEFAULT_STEPS).map((stepItem, i) => {
+              const meta = STEP_METADATA[i % STEP_METADATA.length];
+              const StepIcon = meta.icon;
+              const stepNumber = stepItem.step || `0${i + 1}`;
+
+              return (
+                <div
+                  key={stepItem.step || i}
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-line bg-surface/85 p-6 shadow-2xs backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-line-strong hover:bg-surface hover:shadow-md sm:p-8"
+                >
+                  {/* Subtle corner watermark number */}
+                  <span className="pointer-events-none absolute -right-2 -top-2 select-none font-mono text-8xl font-black text-ink/[0.03] transition-colors duration-300 group-hover:text-primary/[0.07]">
+                    {stepNumber}
+                  </span>
+
+                  <div>
+                    {/* Top Row: Icon + Step Pill */}
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex size-12 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary shadow-2xs transition-all duration-300 group-hover:scale-105 group-hover:border-primary group-hover:bg-primary group-hover:text-on-primary">
+                        <StepIcon className="size-6" />
+                      </div>
+                      <div className="flex items-center gap-1.5 rounded-full border border-line bg-surface-alt px-3 py-1 font-mono text-xs font-semibold uppercase tracking-wider text-steel">
+                        <span>STEP</span>
+                        <span className="font-bold text-ink">{stepNumber}</span>
+                      </div>
+                    </div>
+
+                    {/* Step Title & Description */}
+                    <h3 className="mt-6 font-heading text-xl font-bold tracking-tight text-ink transition-colors group-hover:text-primary">
+                      {stepItem.title}
+                    </h3>
+                    <p className="mt-2.5 text-sm leading-relaxed text-ink-soft">
+                      {stepItem.text}
+                    </p>
+
+                    {/* Value-add Micro-bullets */}
+                    <ul className="mt-6 space-y-2.5 border-t border-line/70 pt-5 text-xs text-ink-soft">
+                      {meta.bullets.map((bullet, bIdx) => (
+                        <li key={bIdx} className="flex items-start gap-2">
+                          <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" />
+                          <span className="leading-normal">{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Card Bottom Highlight Pill */}
+                  <div className="mt-6 flex items-center justify-between rounded-xl border border-line/60 bg-surface-alt/70 px-3.5 py-2.5 text-xs">
+                    <span className="text-ink-soft">{meta.badgeLabel}</span>
+                    <span className="font-semibold text-primary">{meta.badgeValue}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Quick Emergency / Online Booking Reassurance Bar */}
+          <div className="mt-10 rounded-3xl border border-line bg-surface/75 p-6 shadow-2xs backdrop-blur-sm sm:p-8">
+            <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+              <div className="flex items-center gap-4">
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-emergency/20 bg-emergency/10 text-emergency">
+                  <Zap className="size-6" />
+                </div>
+                <div>
+                  <h3 className="font-heading text-lg font-bold text-ink">
+                    Cracked screen or dead device right now?
+                  </h3>
+                  <p className="mt-0.5 text-sm text-ink-soft">
+                    Emergency mobile repair technicians on the road throughout South Florida.
+                  </p>
+                </div>
+              </div>
+              <div className="flex w-full flex-wrap items-center gap-3 md:w-auto">
+                <a
+                  href={waLink("https://wa.me/message/6MOOTRK5QAJOD1", "Hi! I need emergency phone repair at my location.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pressable inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-emergency px-5 text-sm font-semibold text-on-primary shadow-xs transition-colors hover:bg-emergency-strong md:flex-initial"
+                >
+                  <span className="size-2 rounded-full bg-on-primary animate-pulse" />
+                  <span>Emergency Booking</span>
+                  <MessageCircle size={16} className="shrink-0" />
+                </a>
+                <Link
+                  href="/book"
+                  className="pressable inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl border border-line bg-surface px-5 text-sm font-semibold text-ink transition-colors hover:border-line-strong hover:bg-surface-alt md:flex-initial"
+                >
+                  <span>Book online</span>
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

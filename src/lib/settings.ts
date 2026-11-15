@@ -78,9 +78,21 @@ export const defaultSettings = (): SiteSettings => ({
     ],
   },
   howItWorks: [
-    { step: "01", title: "Book in a minute.", text: "Choose your device and the problem, pick a time window." },
-    { step: "02", title: "We come to you.", text: "A certified technician arrives at your door with OEM parts." },
-    { step: "03", title: "Fixed on the spot.", text: "You inspect and test the repaired device, then pay." },
+    {
+      step: "01",
+      title: "Book in 60 seconds",
+      text: "Choose your device, tell us the issue, and pick a time window that fits your schedule.",
+    },
+    {
+      step: "02",
+      title: "We come to you",
+      text: "A certified technician arrives in a mobile workshop at your Florida home, office, or hotel.",
+    },
+    {
+      step: "03",
+      title: "Repaired on the spot",
+      text: "Watch your repair completed in 20–45 mins. Test every feature thoroughly before paying.",
+    },
   ],
   branding: {
     logo: "/images/logo.png",
